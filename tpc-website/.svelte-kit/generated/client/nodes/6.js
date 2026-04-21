@@ -1,0 +1,1 @@
+export { default as component } from "../../../../src/routes/services/asset-tagging-tracking/+page.svelte";

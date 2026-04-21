@@ -1,0 +1,217 @@
+@import './styles/theme.css';
+
+/* Global Styles */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	background-color: var(--background);
+	color: var(--foreground);
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
+	line-height: 1.6;
+	overflow-x: hidden;
+	font-feature-settings: 'rlig' 1, 'calt' 1;
+}
+
+/* Links */
+a {
+	color: var(--tcp-primary);
+	text-decoration: none;
+	transition: color var(--transition-fast) ease;
+}
+
+a:hover {
+	color: var(--tcp-primary-dark);
+}
+
+/* Buttons */
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: var(--spacing-3) var(--spacing-6);
+	border-radius: var(--radius);
+	font-size: var(--text-base);
+	font-weight: 500;
+	transition: all var(--transition-fast) ease;
+	cursor: pointer;
+	border: none;
+	text-decoration: none;
+	position: relative;
+	overflow: hidden;
+}
+
+.btn-primary {
+	background: var(--tcp-primary);
+	color: var(--primary-foreground);
+	box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+	background: var(--tcp-primary-dark);
+	transform: translateY(-1px);
+	box-shadow: var(--shadow-lg);
+}
+
+.btn-secondary {
+	background: transparent;
+	color: var(--tcp-primary);
+	border: 1px solid var(--tcp-primary);
+}
+
+.btn-secondary:hover {
+	background: var(--tcp-primary);
+	color: var(--primary-foreground);
+	transform: translateY(-1px);
+	box-shadow: var(--shadow-md);
+}
+
+.btn-large {
+	padding: var(--spacing-4) var(--spacing-8);
+	font-size: var(--text-lg);
+}
+
+/* Form Elements */
+input, textarea {
+	border: 1px solid var(--border);
+	background-color: var(--input-background);
+	padding: var(--spacing-3) var(--spacing-4);
+	border-radius: var(--radius);
+	font-size: var(--text-base);
+	font-family: inherit;
+	transition: all var(--transition-fast) ease;
+	color: var(--foreground);
+	width: 100%;
+}
+
+input:focus, textarea:focus {
+	outline: none;
+	border-color: var(--tcp-primary);
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Utility Classes */
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 var(--spacing-6);
+}
+
+@media (min-width: 768px) {
+	.container {
+		padding: 0 var(--spacing-8);
+	}
+}
+
+@media (min-width: 1024px) {
+	.container {
+		padding: 0 var(--spacing-10);
+	}
+}
+
+/* Card Component */
+.card {
+	background: var(--card);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow-sm);
+	transition: all var(--transition-fast) ease;
+	overflow: hidden;
+}
+
+.card:hover {
+	transform: translateY(-4px);
+	box-shadow: var(--shadow-lg);
+}
+
+/* Animation Classes */
+.fade-in {
+	opacity: 0;
+	transform: translateY(20px);
+	transition: all var(--transition-slow) ease;
+}
+
+.fade-in.visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* Navigation */
+.navbar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 1000;
+	background: rgba(255, 255, 255, 0.95);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	border-bottom: 1px solid var(--border);
+	transition: all var(--transition-fast) ease;
+}
+
+.navbar.scrolled {
+	background: rgba(255, 255, 255, 0.98);
+	box-shadow: var(--shadow-md);
+}
+
+/* Mobile Menu */
+.hamburger {
+	display: none;
+	flex-direction: column;
+	cursor: pointer;
+	padding: var(--spacing-2);
+}
+
+.hamburger span {
+	width: 24px;
+	height: 2px;
+	background: var(--foreground);
+	margin: 3px 0;
+	transition: var(--transition-fast) ease;
+	border-radius: 2px;
+}
+
+.hamburger.active span:nth-child(1) {
+	transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+	opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+	transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.hamburger {
+		display: flex;
+	}
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+	width: 6px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--muted);
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--tcp-primary);
+	border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--tcp-primary-dark);
+}
