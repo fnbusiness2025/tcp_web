@@ -1,0 +1,22 @@
+{
+  "name": "tpc-client",
+  "version": "1.0.0",
+  "description": "TCP Malawi Client Website - Original Website",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev --port 5173",
+    "build": "vite build",
+    "preview": "vite preview --port 4173",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sveltejs/adapter-auto": "^7.0.1",
+    "@sveltejs/kit": "^2.57.1",
+    "svelte": "^5.55.4",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.9"
+  }
+}
