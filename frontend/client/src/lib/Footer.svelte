@@ -12,7 +12,7 @@
 					<h3>TPC Malawi</h3>
 				</div>
 				<p class="footer-description">
-					Terrestrial Property Consulting Limited - Leading the way in professional real estate services across Malawi with integrity, expertise, and excellence.
+					A special mark of property professionals providing first-class real estate services by applying exceptional property skills in Malawi.
 				</p>
 			</div>
 

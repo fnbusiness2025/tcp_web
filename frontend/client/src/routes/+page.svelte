@@ -1012,33 +1012,7 @@
 		font-weight: 600;
 	}
 
-	/* Final CTA Section */
-	.final-cta {
-		padding: var(--spacing-20) 0;
-		background: var(--tcp-primary);
-		color: white;
-		text-align: center;
-	}
-
-	.cta-content h2 {
-		font-size: var(--text-4xl);
-		font-weight: 600;
-		margin-bottom: var(--spacing-8);
-	}
-
-	.cta-buttons {
-		display: flex;
-		gap: var(--spacing-4);
-		justify-content: center;
-		flex-wrap: wrap;
-	}
-
-	.cta-buttons .btn {
-		background: white;
-		color: var(--tcp-primary);
-		border-color: white;
-	}
-
+	
 	.cta-buttons .btn-primary {
 		background: white;
 		color: var(--tcp-primary);
@@ -1129,10 +1103,6 @@
 
 		.trust {
 			padding: var(--spacing-12) 0;
-		}
-
-		.final-cta {
-			padding: var(--spacing-16) 0;
 		}
 	}
 
