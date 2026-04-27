@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import ScrollAnimation from '$lib/ScrollAnimation.svelte';
 
 	let mobileMenuOpen = false;
 
@@ -80,14 +81,15 @@
 	</section>
 
 	<!-- Service Introduction -->
-	<section class="service-intro">
-		<div class="container">
-			<div class="intro-content">
-				<p>At Terrestrial Property Consulting Limited, we offer comprehensive property valuation services tailored to meet a variety of client needs — from individuals and businesses to government institutions and NGOs.</p>
-				<p>With over a decade of industry experience and a team of registered valuation surveyors, we deliver valuation reports that adhere to local laws and international standards, including IFRS compliance where required.</p>
+	<ScrollAnimation animationType="fade-up" delay={200}>
+		<section class="service-intro">
+			<div class="container">
+				<div class="intro-content">
+					<p>At Terrestrial Property Consulting Limited, we provide professional property valuation services that are accurate, reliable, and compliant with international standards. Our experienced valuers deliver comprehensive reports for various purposes including loans, insurance, estate duty, and tax clearance.</p>
+				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</ScrollAnimation>
 
 	<!-- Why Valuation Matters -->
 	<section class="importance-section">
@@ -198,18 +200,20 @@
 	</section>
 
 	<!-- CTA Section -->
-	<section class="cta-section">
-		<div class="container">
-			<div class="cta-content">
-				<h2>Ready for a Professional Valuation?</h2>
-				<p>Contact us today for accurate and reliable property valuation services</p>
-				<div class="cta-buttons">
-					<a href="/contact" class="btn btn-primary btn-large">Get Valuation</a>
-					<a href="/services" class="btn btn-secondary btn-large">Other Services</a>
+	<ScrollAnimation animationType="fade-up" delay={600}>
+		<section class="cta-section">
+			<div class="container">
+				<div class="cta-content">
+					<h2>Need Professional Property Valuation?</h2>
+					<p>Contact our expert team today for accurate and reliable valuation services</p>
+					<div class="cta-buttons">
+						<a href="/contact" class="btn btn-primary btn-large">Get Started</a>
+						<a href="/services" class="btn btn-secondary btn-large">Other Services</a>
+					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</ScrollAnimation>
 </main>
 
 

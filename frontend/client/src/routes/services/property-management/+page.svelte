@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import ScrollAnimation from '$lib/ScrollAnimation.svelte';
 
 	let mobileMenuOpen = false;
 
@@ -80,39 +81,43 @@
 	</section>
 
 	<!-- Service Introduction -->
-	<section class="service-intro">
-		<div class="container">
-			<div class="intro-content">
-				<p>At Terrestrial Property Consulting Limited, we offer end-to-end property management services that give you peace of mind, knowing your investment is in expert hands. Our professional team ensures your property is well-maintained, tenants are satisfied, and your returns are maximized.</p>
+	<ScrollAnimation animationType="fade-up" delay={200}>
+		<section class="service-intro">
+			<div class="container">
+				<div class="intro-content">
+					<p>At Terrestrial Property Consulting Limited, we offer end-to-end property management services that give you peace of mind, knowing your investment is in expert hands. Our professional team ensures your property is well-maintained, tenants are satisfied, and your returns are maximized.</p>
+				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</ScrollAnimation>
 
 	<!-- What We Manage -->
-	<section class="property-types-section">
-		<div class="container">
-			<div class="section-header">
-				<h2>🏢 What We Manage</h2>
+	<ScrollAnimation animationType="fade-up" delay={300}>
+		<section class="property-types-section">
+			<div class="container">
+				<div class="section-header">
+					<h2>🏢 What We Manage</h2>
+				</div>
+				<div class="property-types">
+					<div class="property-type stagger-item">
+						<div class="property-icon">🏠</div>
+						<h3>Residential Properties</h3>
+						<p>Apartments, houses, estates</p>
+					</div>
+					<div class="property-type stagger-item">
+						<div class="property-icon">🏬</div>
+						<h3>Commercial Buildings</h3>
+						<p>Offices, retail centers, mixed-use developments</p>
+					</div>
+					<div class="property-type stagger-item">
+						<div class="property-icon">🏭</div>
+						<h3>Industrial Premises</h3>
+						<p>Warehouses, factories, logistics hubs</p>
+					</div>
+				</div>
 			</div>
-			<div class="property-types">
-				<div class="property-type">
-					<div class="property-icon">🏠</div>
-					<h3>Residential Properties</h3>
-					<p>Apartments, houses, estates</p>
-				</div>
-				<div class="property-type">
-					<div class="property-icon">🏬</div>
-					<h3>Commercial Buildings</h3>
-					<p>Offices, retail centers, mixed-use developments</p>
-				</div>
-				<div class="property-type">
-					<div class="property-icon">🏭</div>
-					<h3>Industrial Premises</h3>
-					<p>Warehouses, factories, logistics hubs</p>
-				</div>
-			</div>
-		</div>
-	</section>
+		</section>
+	</ScrollAnimation>
 
 	<!-- Our Services Include -->
 	<section class="services-section">
@@ -222,18 +227,20 @@
 	</section>
 
 	<!-- CTA Section -->
-	<section class="cta-section">
-		<div class="container">
-			<div class="cta-content">
-				<h2>Ready for Professional Property Management?</h2>
-				<p>Let us take care of your property while you focus on what matters most</p>
-				<div class="cta-buttons">
-					<a href="/contact" class="btn btn-primary btn-large">Get Started</a>
-					<a href="/services" class="btn btn-secondary btn-large">Other Services</a>
+	<ScrollAnimation animationType="fade-up" delay={600}>
+		<section class="cta-section">
+			<div class="container">
+				<div class="cta-content">
+					<h2>Ready for Professional Property Management?</h2>
+					<p>Let us take care of your property while you focus on what matters most</p>
+					<div class="cta-buttons">
+						<a href="/contact" class="btn btn-primary btn-large">Get Started</a>
+						<a href="/services" class="btn btn-secondary btn-large">Other Services</a>
+					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</ScrollAnimation>
 </main>
 
 

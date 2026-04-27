@@ -1,34 +1,18 @@
 <script>
 	import '../app.css';
 	import { onMount } from 'svelte';
+	import ScrollAnimation from '$lib/ScrollAnimation.svelte';
+	import Navigation from '$lib/Navigation.svelte';
+	import Footer from '$lib/Footer.svelte';
 
-	let scrolled = false;
-	let mobileMenuOpen = false;
 	let heroVisible = false;
 
 	onMount(() => {
-		const handleScroll = () => {
-			scrolled = window.scrollY > 20;
-		};
-
 		// Trigger hero animations
 		setTimeout(() => {
 			heroVisible = true;
 		}, 300);
-
-		window.addEventListener('scroll', handleScroll);
-		return () => {
-			window.removeEventListener('scroll', handleScroll);
-		};
 	});
-
-	const toggleMobileMenu = () => {
-		mobileMenuOpen = !mobileMenuOpen;
-	};
-
-	const closeMobileMenu = () => {
-		mobileMenuOpen = false;
-	};
 </script>
 
 <svelte:head>
@@ -36,44 +20,7 @@
 	<meta name="description" content="TPC Malawi - Find trusted property opportunities in Malawi. Discover land and real estate with confidence, transparency, and clarity." />
 </svelte:head>
 
-<!-- Simple Navbar -->
-<nav class="navbar" class:scrolled>
-	<div class="container">
-		<div class="nav-content">
-			<div class="nav-logo">
-				<img src="/tcp.jpeg" alt="TPC" style="height: 60px; width: 120px; object-fit: contain;" />
-				<span class="company-name-nav">TPC Malawi</span>
-			</div>
-			
-			<!-- Desktop Navigation -->
-			<ul class="nav-menu desktop-menu">
-				<li><a href="#home">Home</a></li>
-				<li><a href="/about">About</a></li>
-				<li><a href="/services">Services</a></li>
-				<li><a href="#listings">Properties</a></li>
-				<li><a href="/contact">Contact</a></li>
-				<li><a href="/contact" class="btn btn-primary">Get Started</a></li>
-			</ul>
-
-			<!-- Mobile Menu Toggle -->
-			<div class="hamburger" class:active={mobileMenuOpen} on:click={toggleMobileMenu}>
-				<span></span>
-				<span></span>
-				<span></span>
-			</div>
-		</div>
-
-		<!-- Mobile Menu -->
-		<ul class="nav-menu mobile-menu" class:active={mobileMenuOpen}>
-			<li><a href="#home" on:click={closeMobileMenu}>Home</a></li>
-			<li><a href="/about" on:click={closeMobileMenu}>About</a></li>
-			<li><a href="/services" on:click={closeMobileMenu}>Services</a></li>
-			<li><a href="#listings" on:click={closeMobileMenu}>Properties</a></li>
-			<li><a href="/contact" on:click={closeMobileMenu}>Contact</a></li>
-			<li><a href="/contact" class="btn btn-primary" on:click={closeMobileMenu}>Get Started</a></li>
-		</ul>
-	</div>
-</nav>
+<Navigation currentPage="home" />
 
 <!-- Main Content -->
 <main>
@@ -141,11 +88,12 @@
 
 	
 	<!-- Featured Properties -->
-	<section id="listings" class="featured">
-		<div class="container">
-			<div class="featured-header">
-				<h2>Featured Properties</h2>
-			</div>
+	<ScrollAnimation animationType="fade-up" delay={200}>
+		<section id="listings" class="featured">
+			<div class="container">
+				<div class="featured-header">
+					<h2>Featured Properties</h2>
+				</div>
 			<div class="properties-grid">
 				<div class="property-card card">
 					<div class="property-image">
@@ -179,13 +127,15 @@
 			</div>
 		</div>
 	</section>
+	</ScrollAnimation>
 
 	<!-- Trust Line / Value Statement -->
-	<section class="trust">
-		<div class="container">
-			<div class="trust-content">
-				<div class="company-name">TPC Malawi</div>
-				<p>Trusted by landowners, investors, and property seekers across Malawi.</p>
+	<ScrollAnimation animationType="fade-up" delay={400}>
+		<section class="trust">
+			<div class="container">
+				<div class="trust-content">
+					<div class="company-name">TPC Malawi</div>
+					<p>Trusted by landowners, investors, and property seekers across Malawi.</p>
 				<div class="trust-icons">
 					<div class="trust-item">
 						<div class="trust-icon">✓</div>
@@ -201,92 +151,15 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</ScrollAnimation>
 
 	
 	</main>
 
+<Footer />
 
 <style>
-	/* Navigation Styles */
-	.nav-content {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: var(--spacing-4) 0;
-		height: 72px;
-	}
-
-	.nav-logo {
-		display: flex;
-		align-items: center;
-		gap: 0;
-	}
-
-	.company-name-nav {
-		font-size: var(--text-lg);
-		font-weight: 700;
-		color: var(--tcp-primary);
-	}
-
-	.nav-menu {
-		display: flex;
-		align-items: center;
-		list-style: none;
-		gap: var(--spacing-8);
-		margin: 0;
-		padding: 0;
-	}
-
-	.nav-menu a {
-		color: var(--foreground);
-		font-weight: 500;
-		font-size: var(--text-sm);
-		transition: color var(--transition-fast) ease;
-	}
-
-	.nav-menu a:hover {
-		color: var(--tcp-primary);
-	}
-
-	.desktop-menu {
-		display: flex;
-	}
-
-	.mobile-menu {
-		display: none;
-		position: absolute;
-		top: 100%;
-		left: 0;
-		right: 0;
-		background: rgba(255, 255, 255, 0.98);
-		backdrop-filter: blur(10px);
-		-webkit-backdrop-filter: blur(10px);
-		border-bottom: 1px solid var(--border);
-		flex-direction: column;
-		padding: var(--spacing-4);
-		gap: var(--spacing-3);
-		transform: translateY(-100%);
-		opacity: 0;
-		transition: all var(--transition-fast) ease;
-		box-shadow: var(--shadow-lg);
-	}
-
-	.mobile-menu.active {
-		display: flex;
-		transform: translateY(0);
-		opacity: 1;
-	}
-
-	@media (max-width: 768px) {
-		.desktop-menu {
-			display: none;
-		}
-		.mobile-menu.active {
-			display: flex;
-		}
-	}
 
 	/* Hero Section */
 	.hero {

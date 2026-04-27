@@ -1,25 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
-
-	let mobileMenuOpen = false;
-
-	function toggleMobileMenu() {
-		mobileMenuOpen = !mobileMenuOpen;
-	}
-
-	function closeMobileMenu() {
-		mobileMenuOpen = false;
-	}
-
-	// Smooth scroll for anchor links
-	function smoothScroll(event, targetId) {
-		event.preventDefault();
-		const element = document.getElementById(targetId);
-		if (element) {
-			element.scrollIntoView({ behavior: 'smooth' });
-		}
-		closeMobileMenu();
-	}
+	import ScrollAnimation from '$lib/ScrollAnimation.svelte';
+	import Navigation from '$lib/Navigation.svelte';
+	import Footer from '$lib/Footer.svelte';
 
 	function handleSubmit(event) {
 		// In a real application, you would handle form submission here
@@ -34,42 +17,7 @@
 	<meta name="description" content="Contact Terrestrial Property Consulting Limited in Blantyre, Malawi. Visit our office at Reunion House or call us for professional property consulting services." />
 </svelte:head>
 
-<!-- Navigation -->
-<nav class="navbar">
-	<div class="container">
-		<div class="nav-content">
-			<div class="nav-logo">
-				<img src="/tcp.jpeg" alt="TPC" style="height: 60px; width: auto; object-fit: contain;" />
-				<span class="company-name-nav">TPC Malawi</span>
-			</div>
-			
-			<!-- Desktop Navigation -->
-			<ul class="nav-menu desktop-menu">
-				<li><a href="/">Home</a></li>
-				<li><a href="/about">About</a></li>
-				<li><a href="/services">Services</a></li>
-				<li><a href="/#listings">Properties</a></li>
-				<li><a href="/contact" class="btn btn-primary">Get Started</a></li>
-			</ul>
-
-			<!-- Mobile Menu Toggle -->
-			<div class="hamburger" class:active={mobileMenuOpen} on:click={toggleMobileMenu}>
-				<span></span>
-				<span></span>
-				<span></span>
-			</div>
-		</div>
-
-		<!-- Mobile Menu -->
-		<ul class="nav-menu mobile-menu" class:active={mobileMenuOpen}>
-			<li><a href="/" on:click={closeMobileMenu}>Home</a></li>
-			<li><a href="/about" on:click={closeMobileMenu}>About</a></li>
-			<li><a href="/services" on:click={closeMobileMenu}>Services</a></li>
-			<li><a href="/#listings" on:click={closeMobileMenu}>Properties</a></li>
-			<li><a href="/contact" class="btn btn-primary" on:click={closeMobileMenu}>Get Started</a></li>
-		</ul>
-	</div>
-</nav>
+<Navigation currentPage="contact" />
 
 <!-- Main Content -->
 <main>
@@ -89,11 +37,12 @@
 	</section>
 
 	<!-- Contact Section -->
-	<section class="contact">
-		<div class="container">
-			<div class="contact-header">
-				<h2>Contact Us</h2>
-				<p>Get in touch with Terrestrial Property Consulting Limited</p>
+	<ScrollAnimation animationType="fade-up" delay={200}>
+		<section class="contact">
+			<div class="container">
+				<div class="contact-header">
+					<h2>Contact Us</h2>
+					<p>Get in touch with Terrestrial Property Consulting Limited</p>
 			</div>
 			
 			<div class="contact-content">
@@ -267,8 +216,10 @@
 			</div>
 		</div>
 	</section>
+	</ScrollAnimation>
 </main>
 
+<Footer />
 
 <style>
 	:global(*) {
@@ -374,20 +325,7 @@
 		color: var(--tcp-primary);
 	}
 
-	.hamburger {
-		display: none;
-		flex-direction: column;
-		cursor: pointer;
-		gap: 4px;
-	}
-
-	.hamburger span {
-		width: 24px;
-		height: 2px;
-		background: var(--foreground);
-		transition: all var(--transition-fast) ease;
-	}
-
+	
 	/* Buttons */
 	.btn {
 		display: inline-flex;
@@ -980,8 +918,57 @@
 		display: flex;
 	}
 
+	/* Hamburger Menu */
+	.hamburger {
+		display: none;
+		flex-direction: column;
+		justify-content: space-between;
+		width: 30px;
+		height: 21px;
+		cursor: pointer;
+		z-index: 1001;
+		transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	}
+
+	.hamburger:hover {
+		transform: scale(1.1);
+	}
+
+	.hamburger span {
+		display: block;
+		height: 3px;
+		width: 100%;
+		background-color: #000000;
+		border-radius: 3px;
+		transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+		transform-origin: center;
+		position: relative;
+	}
+
+	.hamburger.active span:nth-child(1) {
+		transform: rotate(45deg) translate(8px, 8px);
+		background-color: var(--tcp-primary);
+	}
+
+	.hamburger.active span:nth-child(2) {
+		opacity: 0;
+		transform: translateX(20px) scale(0);
+	}
+
+	.hamburger.active span:nth-child(3) {
+		transform: rotate(-45deg) translate(8px, -8px);
+		background-color: var(--tcp-primary);
+	}
+
 	/* Responsive Design */
 	@media (max-width: 1024px) {
+		.desktop-menu {
+			display: none;
+		}
+		.hamburger {
+			display: flex;
+		}
+		
 		.contact-grid {
 			grid-template-columns: 1fr;
 		}

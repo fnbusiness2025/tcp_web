@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import ScrollAnimation from '$lib/ScrollAnimation.svelte';
 
 	let mobileMenuOpen = false;
 
@@ -80,13 +81,15 @@
 	</section>
 
 	<!-- Service Introduction -->
-	<section class="service-intro">
-		<div class="container">
-			<div class="intro-content">
-				<p>At Terrestrial Property Consulting Limited, we offer professional and reliable valuation services for plant, machinery, and other fixed industrial assets. Our team includes qualified Chartered Plant & Machinery Valuation Surveyors, ensuring your reports meet both local and international standards.</p>
+	<ScrollAnimation animationType="fade-up" delay={200}>
+		<section class="service-intro">
+			<div class="container">
+				<div class="intro-content">
+					<p>At Terrestrial Property Consulting Limited, we specialize in professional plant and machinery valuations for industrial assets, manufacturing equipment, and commercial machinery. Our expert valuers provide accurate assessments that support financial decisions, insurance, and asset management strategies.</p>
+				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</ScrollAnimation>
 
 	<!-- Why Important -->
 	<section class="importance-section">
@@ -206,18 +209,20 @@
 	</section>
 
 	<!-- CTA Section -->
-	<section class="cta-section">
-		<div class="container">
-			<div class="cta-content">
-				<h2>Need Plant & Machinery Valuation?</h2>
-				<p>Contact us for professional industrial asset valuation services</p>
-				<div class="cta-buttons">
-					<a href="/contact" class="btn btn-primary btn-large">Get Valuation</a>
-					<a href="/services" class="btn btn-secondary btn-large">Other Services</a>
+	<ScrollAnimation animationType="fade-up" delay={600}>
+		<section class="cta-section">
+			<div class="container">
+				<div class="cta-content">
+					<h2>Need Professional Plant & Machinery Valuation?</h2>
+					<p>Contact our expert team today for specialized industrial asset valuations</p>
+					<div class="cta-buttons">
+						<a href="/contact" class="btn btn-primary btn-large">Get Started</a>
+						<a href="/services" class="btn btn-secondary btn-large">Other Services</a>
+					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</ScrollAnimation>
 </main>
 
 

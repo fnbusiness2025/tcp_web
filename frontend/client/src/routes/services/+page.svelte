@@ -1,25 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
-
-	let mobileMenuOpen = false;
-
-	function toggleMobileMenu() {
-		mobileMenuOpen = !mobileMenuOpen;
-	}
-
-	function closeMobileMenu() {
-		mobileMenuOpen = false;
-	}
-
-	// Smooth scroll for anchor links
-	function smoothScroll(event, targetId) {
-		event.preventDefault();
-		const element = document.getElementById(targetId);
-		if (element) {
-			element.scrollIntoView({ behavior: 'smooth' });
-		}
-		closeMobileMenu();
-	}
+	import ScrollAnimation from '$lib/ScrollAnimation.svelte';
+	import Navigation from '$lib/Navigation.svelte';
+	import Footer from '$lib/Footer.svelte';
 </script>
 
 <svelte:head>
@@ -27,43 +10,7 @@
 	<meta name="description" content="Explore our comprehensive property services including valuations, plant & machinery valuations, asset tagging & tracking, and property management in Malawi." />
 </svelte:head>
 
-<!-- Navigation -->
-<nav class="navbar">
-	<div class="container">
-		<div class="nav-content">
-			<div class="nav-logo">
-				<img src="/tcp.jpeg" alt="TPC" style="height: 60px; width: 120px; object-fit: contain;" />
-				<span class="company-name-nav">TPC Malawi</span>
-			</div>
-			<!-- Desktop Navigation -->
-			<ul class="nav-menu desktop-menu">
-				<li><a href="/">Home</a></li>
-				<li><a href="/about">About</a></li>
-				<li><a href="/services" class="active">Services</a></li>
-				<li><a href="/#listings">Properties</a></li>
-				<li><a href="/contact">Contact</a></li>
-				<li><a href="/contact" class="btn btn-primary">Get Started</a></li>
-			</ul>
-
-			<!-- Mobile Menu Toggle -->
-			<div class="hamburger" class:active={mobileMenuOpen} on:click={toggleMobileMenu}>
-				<span></span>
-				<span></span>
-				<span></span>
-			</div>
-		</div>
-
-		<!-- Mobile Menu -->
-		<ul class="nav-menu mobile-menu" class:active={mobileMenuOpen}>
-			<li><a href="/" on:click={closeMobileMenu}>Home</a></li>
-			<li><a href="/about" on:click={closeMobileMenu}>About</a></li>
-			<li><a href="/services" class="active" on:click={closeMobileMenu}>Services</a></li>
-			<li><a href="/#listings" on:click={closeMobileMenu}>Properties</a></li>
-			<li><a href="/contact" on:click={closeMobileMenu}>Contact</a></li>
-			<li><a href="/contact" class="btn btn-primary" on:click={closeMobileMenu}>Get Started</a></li>
-		</ul>
-	</div>
-</nav>
+<Navigation currentPage="services" />
 
 <!-- Main Content -->
 <main>
@@ -83,84 +30,89 @@
 	</section>
 
 	<!-- Services Overview -->
-	<section class="services-overview">
-		<div class="container">
-			<div class="section-header">
-				<h2>Our Core Services</h2>
-				<p>Expert solutions for all your property and asset management needs</p>
-			</div>
-			<div class="services-grid">
-				<a href="/services/property-valuations" class="service-card">
-					<div class="service-image">
-						<img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=250&fit=crop&auto=format" alt="Property Valuations" />
-						<div class="service-overlay">
-							<div class="service-icon">📊</div>
+	<ScrollAnimation animationType="fade-up" delay={200}>
+		<section class="services-overview">
+			<div class="container">
+				<div class="section-header">
+					<h2>Our Core Services</h2>
+					<p>Expert solutions for all your property and asset management needs</p>
+				</div>
+				<div class="services-grid">
+					<a href="/services/property-valuations" class="service-card stagger-item">
+						<div class="service-image">
+							<img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=250&fit=crop&auto=format" alt="Property Valuations" />
+							<div class="service-overlay">
+								<div class="service-icon">📊</div>
+							</div>
 						</div>
-					</div>
-					<div class="service-content">
-						<h3>Property Valuations</h3>
-						<p>Accurate, reliable, and professional valuation services for all types of properties</p>
-						<div class="service-link">Learn More →</div>
-					</div>
-				</a>
-				<a href="/services/plant-machinery-valuations" class="service-card">
-					<div class="service-image">
-						<img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&h=250&fit=crop&auto=format" alt="Plant & Machinery Valuations" />
-						<div class="service-overlay">
-							<div class="service-icon">🏭</div>
+						<div class="service-content">
+							<h3>Property Valuations</h3>
+							<p>Accurate, reliable, and professional valuation services for all types of properties</p>
+							<div class="service-link">Learn More →</div>
 						</div>
-					</div>
-					<div class="service-content">
-						<h3>Plant & Machinery Valuations</h3>
-						<p>Specialized valuation services for industrial and commercial assets</p>
-						<div class="service-link">Learn More →</div>
-					</div>
-				</a>
-				<a href="/services/asset-tagging-tracking" class="service-card">
-					<div class="service-image">
-						<img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop&auto=format" alt="Asset Tagging & Tracking" />
-						<div class="service-overlay">
-							<div class="service-icon">🏷️</div>
+					</a>
+					<a href="/services/plant-machinery-valuations" class="service-card stagger-item">
+						<div class="service-image">
+							<img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&h=250&fit=crop&auto=format" alt="Plant & Machinery Valuations" />
+							<div class="service-overlay">
+								<div class="service-icon">🏭</div>
+							</div>
 						</div>
-					</div>
-					<div class="service-content">
-						<h3>Asset Tagging & Tracking</h3>
-						<p>Comprehensive asset management solutions with modern tracking technology</p>
-						<div class="service-link">Learn More →</div>
-					</div>
-				</a>
-				<a href="/services/property-management" class="service-card">
-					<div class="service-image">
-						<img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=250&fit=crop&auto=format" alt="Property Management" />
-						<div class="service-overlay">
-							<div class="service-icon">🏢</div>
+						<div class="service-content">
+							<h3>Plant & Machinery Valuations</h3>
+							<p>Specialized valuation services for industrial and commercial assets</p>
+							<div class="service-link">Learn More →</div>
 						</div>
-					</div>
-					<div class="service-content">
-						<h3>Property Management</h3>
-						<p>End-to-end property management services for maximum investment returns</p>
-						<div class="service-link">Learn More →</div>
-					</div>
-				</a>
-			</div>
-		</div>
-	</section>
-
-	<!-- CTA Section -->
-	<section class="cta-section">
-		<div class="container">
-			<div class="cta-content">
-				<h2>Need Professional Property Services?</h2>
-				<p>Contact our expert team today to discuss how we can help with your specific requirements</p>
-				<div class="cta-buttons">
-					<a href="/contact" class="btn btn-primary btn-large">Get Started</a>
-					<a href="/about" class="btn btn-secondary btn-large">About Us</a>
+					</a>
+					<a href="/services/asset-tagging-tracking" class="service-card stagger-item">
+						<div class="service-image">
+							<img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop&auto=format" alt="Asset Tagging & Tracking" />
+							<div class="service-overlay">
+								<div class="service-icon">🏷️</div>
+							</div>
+						</div>
+						<div class="service-content">
+							<h3>Asset Tagging & Tracking</h3>
+							<p>Comprehensive asset management solutions with modern tracking technology</p>
+							<div class="service-link">Learn More →</div>
+						</div>
+					</a>
+					<a href="/services/property-management" class="service-card stagger-item">
+						<div class="service-image">
+							<img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=250&fit=crop&auto=format" alt="Property Management" />
+							<div class="service-overlay">
+								<div class="service-icon">🏢</div>
+							</div>
+						</div>
+						<div class="service-content">
+							<h3>Property Management</h3>
+							<p>End-to-end property management services for maximum investment returns</p>
+							<div class="service-link">Learn More →</div>
+						</div>
+					</a>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</ScrollAnimation>
+
+	<!-- CTA Section -->
+	<ScrollAnimation animationType="fade-up" delay={400}>
+		<section class="cta-section">
+			<div class="container">
+				<div class="cta-content">
+					<h2>Need Professional Property Services?</h2>
+					<p>Contact our expert team today to discuss how we can help with your specific requirements</p>
+					<div class="cta-buttons">
+						<a href="/contact" class="btn btn-primary btn-large">Get Started</a>
+						<a href="/about" class="btn btn-secondary btn-large">About Us</a>
+					</div>
+				</div>
+			</div>
+		</section>
+	</ScrollAnimation>
 </main>
 
+<Footer />
 
 <style>
 	:global(*) {
@@ -270,15 +222,42 @@
 	.hamburger {
 		display: none;
 		flex-direction: column;
+		justify-content: space-between;
+		width: 30px;
+		height: 21px;
 		cursor: pointer;
-		gap: 4px;
+		z-index: 1001;
+		transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	}
+
+	.hamburger:hover {
+		transform: scale(1.1);
 	}
 
 	.hamburger span {
-		width: 24px;
-		height: 2px;
-		background: var(--foreground);
-		transition: all var(--transition-fast) ease;
+		display: block;
+		height: 3px;
+		width: 100%;
+		background-color: #000000;
+		border-radius: 3px;
+		transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+		transform-origin: center;
+		position: relative;
+	}
+
+	.hamburger.active span:nth-child(1) {
+		transform: rotate(45deg) translate(8px, 8px);
+		background-color: var(--tcp-primary);
+	}
+
+	.hamburger.active span:nth-child(2) {
+		opacity: 0;
+		transform: translateX(20px) scale(0);
+	}
+
+	.hamburger.active span:nth-child(3) {
+		transform: rotate(-45deg) translate(8px, -8px);
+		background-color: var(--tcp-primary);
 	}
 
 	/* Buttons */

@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import ScrollAnimation from '$lib/ScrollAnimation.svelte';
 
 	let mobileMenuOpen = false;
 
@@ -80,75 +81,81 @@
 	</section>
 
 	<!-- Service Introduction -->
-	<section class="service-intro">
-		<div class="container">
-			<div class="intro-content">
-				<p>At Terrestrial Property Consulting Limited, we offer comprehensive asset tagging and tracking solutions designed to improve inventory accuracy, prevent asset loss, and ensure seamless asset audits for both small businesses and large organizations.</p>
+	<ScrollAnimation animationType="fade-up" delay={200}>
+		<section class="service-intro">
+			<div class="container">
+				<div class="intro-content">
+					<p>At Terrestrial Property Consulting Limited, we offer comprehensive asset tagging and tracking solutions designed to improve inventory accuracy, prevent asset loss, and ensure seamless asset audits for both small businesses and large organizations.</p>
+				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</ScrollAnimation>
 
 	<!-- What We Do -->
-	<section class="process-section">
-		<div class="container">
-			<div class="section-header">
-				<h2>🔖 What We Do</h2>
+	<ScrollAnimation animationType="fade-up" delay={300}>
+		<section class="process-section">
+			<div class="container">
+				<div class="section-header">
+					<h2>🔖 What We Do</h2>
+				</div>
+				<div class="process-grid">
+					<div class="process-item stagger-item">
+						<div class="process-icon">🏷️</div>
+						<h3>Supply of High-Quality Asset Tags</h3>
+						<p>We provide anodized aluminum barcodes that are indelible, scratch-resistant, and built to withstand extreme climate conditions — ideal for Malawian and African environments.</p>
+					</div>
+					<div class="process-item stagger-item">
+						<div class="process-icon">🔍</div>
+						<h3>Tagging & Physical Verification</h3>
+						<p>Our expert team conducts on-site physical audits of all organizational assets. Every verified item is tagged with a permanent barcode for tracking and monitoring.</p>
+					</div>
+					<div class="process-item stagger-item">
+						<div class="process-icon">💻</div>
+						<h3>Asset Management Software Integration</h3>
+						<p>We supply and configure asset management software and handheld hardware to allow real-time tracking and reconciliation. Integration with your existing fixed asset register ensures smooth transition and minimal disruption.</p>
+					</div>
+					<div class="process-item stagger-item">
+						<div class="process-icon">📊</div>
+						<h3>Register Reconciliation & Reporting</h3>
+						<p>We reconcile physical assets with your internal records. Final reports include updated registers, reconciliation notes, asset condition summaries, and recommendations.</p>
+					</div>
+				</div>
 			</div>
-			<div class="process-grid">
-				<div class="process-item">
-					<div class="process-icon">🏷️</div>
-					<h3>Supply of High-Quality Asset Tags</h3>
-					<p>We provide anodized aluminum barcodes that are indelible, scratch-resistant, and built to withstand extreme climate conditions — ideal for Malawian and African environments.</p>
-				</div>
-				<div class="process-item">
-					<div class="process-icon">🔍</div>
-					<h3>Tagging & Physical Verification</h3>
-					<p>Our expert team conducts on-site physical audits of all organizational assets. Every verified item is tagged with a permanent barcode for tracking and monitoring.</p>
-				</div>
-				<div class="process-item">
-					<div class="process-icon">💻</div>
-					<h3>Asset Management Software Integration</h3>
-					<p>We supply and configure asset management software and handheld hardware to allow real-time tracking and reconciliation. Integration with your existing fixed asset register ensures smooth transition and minimal disruption.</p>
-				</div>
-				<div class="process-item">
-					<div class="process-icon">📊</div>
-					<h3>Register Reconciliation & Reporting</h3>
-					<p>We reconcile physical assets with your internal records. Final reports include updated registers, reconciliation notes, asset condition summaries, and recommendations.</p>
-				</div>
-			</div>
-		</div>
-	</section>
+		</section>
+	</ScrollAnimation>
 
 	<!-- Benefits -->
-	<section class="benefits-section">
-		<div class="container">
-			<div class="section-header">
-				<h2>🧾 Benefits of Our Tagging Services</h2>
+	<ScrollAnimation animationType="fade-up" delay={400}>
+		<section class="benefits-section">
+			<div class="container">
+				<div class="section-header">
+					<h2>🧾 Benefits of Our Tagging Services</h2>
+				</div>
+				<div class="benefits-grid">
+					<div class="benefit-card stagger-item">
+						<div class="benefit-icon">👻</div>
+						<h3>Eliminate Ghost Assets</h3>
+						<p>Remove phantom assets from your records and reduce losses</p>
+					</div>
+					<div class="benefit-card stagger-item">
+						<div class="benefit-icon">📱</div>
+						<h3>Effortless Tracking</h3>
+						<p>Enable real-time tracking and seamless auditing</p>
+					</div>
+					<div class="benefit-card stagger-item">
+						<div class="benefit-icon">📋</div>
+						<h3>IFRS Compliance</h3>
+						<p>Prepare for international accounting standards compliance</p>
+					</div>
+					<div class="benefit-card stagger-item">
+						<div class="benefit-icon">🎯</div>
+						<h3>Better Decision Making</h3>
+						<p>Improve decisions through accurate asset visibility</p>
+					</div>
+				</div>
 			</div>
-			<div class="benefits-grid">
-				<div class="benefit-card">
-					<div class="benefit-icon">👻</div>
-					<h3>Eliminate Ghost Assets</h3>
-					<p>Remove phantom assets from your records and reduce losses</p>
-				</div>
-				<div class="benefit-card">
-					<div class="benefit-icon">📱</div>
-					<h3>Effortless Tracking</h3>
-					<p>Enable real-time tracking and seamless auditing</p>
-				</div>
-				<div class="benefit-card">
-					<div class="benefit-icon">📋</div>
-					<h3>IFRS Compliance</h3>
-					<p>Prepare for international accounting standards compliance</p>
-				</div>
-				<div class="benefit-card">
-					<div class="benefit-icon">🎯</div>
-					<h3>Better Decision Making</h3>
-					<p>Improve decisions through accurate asset visibility</p>
-				</div>
-			</div>
-		</div>
-	</section>
+		</section>
+	</ScrollAnimation>
 
 	<!-- Major Clients -->
 	<section class="clients-section">
@@ -185,18 +192,20 @@
 	</section>
 
 	<!-- CTA Section -->
-	<section class="cta-section">
-		<div class="container">
-			<div class="cta-content">
-				<h2>Ready to Improve Asset Management?</h2>
-				<p>Contact us today for professional asset tagging and tracking solutions</p>
-				<div class="cta-buttons">
-					<a href="/contact" class="btn btn-primary btn-large">Get Started</a>
-					<a href="/services" class="btn btn-secondary btn-large">Other Services</a>
+	<ScrollAnimation animationType="fade-up" delay={600}>
+		<section class="cta-section">
+			<div class="container">
+				<div class="cta-content">
+					<h2>Ready to Improve Asset Management?</h2>
+					<p>Contact us today for professional asset tagging and tracking solutions</p>
+					<div class="cta-buttons">
+						<a href="/contact" class="btn btn-primary btn-large">Get Started</a>
+						<a href="/services" class="btn btn-secondary btn-large">Other Services</a>
+					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</ScrollAnimation>
 </main>
 
 

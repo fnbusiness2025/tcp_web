@@ -1,25 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
-
-	let mobileMenuOpen = false;
-
-	function toggleMobileMenu() {
-		mobileMenuOpen = !mobileMenuOpen;
-	}
-
-	function closeMobileMenu() {
-		mobileMenuOpen = false;
-	}
-
-	// Smooth scroll for anchor links
-	function smoothScroll(event, targetId) {
-		event.preventDefault();
-		const element = document.getElementById(targetId);
-		if (element) {
-			element.scrollIntoView({ behavior: 'smooth' });
-		}
-		closeMobileMenu();
-	}
+	import ScrollAnimation from '$lib/ScrollAnimation.svelte';
+	import Navigation from '$lib/Navigation.svelte';
+	import Footer from '$lib/Footer.svelte';
 </script>
 
 <svelte:head>
@@ -27,44 +10,7 @@
 	<meta name="description" content="Learn about Terrestrial Property Consulting Limited - our vision, mission, core values, and legacy of professionalism in real estate services in Malawi." />
 </svelte:head>
 
-<!-- Navigation -->
-<nav class="navbar">
-	<div class="container">
-		<div class="nav-content">
-			<div class="nav-logo">
-				<img src="/tcp.jpeg" alt="TPC" style="height: 60px; width: 120px; object-fit: contain;" />
-				<span class="company-name-nav">TPC Malawi</span>
-			</div>
-			
-			<!-- Desktop Navigation -->
-			<ul class="nav-menu desktop-menu">
-				<li><a href="/">Home</a></li>
-				<li><a href="/about" class="active">About</a></li>
-				<li><a href="/services">Services</a></li>
-				<li><a href="/#listings">Properties</a></li>
-				<li><a href="/contact">Contact</a></li>
-				<li><a href="/contact" class="btn btn-primary">Get Started</a></li>
-			</ul>
-
-			<!-- Mobile Menu Toggle -->
-			<div class="hamburger" class:active={mobileMenuOpen} on:click={toggleMobileMenu}>
-				<span></span>
-				<span></span>
-				<span></span>
-			</div>
-		</div>
-
-		<!-- Mobile Menu -->
-		<ul class="nav-menu mobile-menu" class:active={mobileMenuOpen}>
-			<li><a href="/" on:click={closeMobileMenu}>Home</a></li>
-			<li><a href="/about" class="active" on:click={closeMobileMenu}>About</a></li>
-			<li><a href="/services" on:click={closeMobileMenu}>Services</a></li>
-			<li><a href="/#listings" on:click={closeMobileMenu}>Properties</a></li>
-			<li><a href="/contact" on:click={closeMobileMenu}>Contact</a></li>
-			<li><a href="/contact" class="btn btn-primary" on:click={closeMobileMenu}>Get Started</a></li>
-		</ul>
-	</div>
-</nav>
+<Navigation currentPage="about" />
 
 <!-- Main Content -->
 <main>
@@ -84,125 +30,134 @@
 	</section>
 
 	<!-- Company Overview -->
-	<section class="overview-section">
-		<div class="container">
-			<div class="overview-content">
-				<div class="overview-text">
-					<h2>Who We Are</h2>
-					<p>Terrestrial Property Consulting Limited (TCP Malawi) is a premier property consulting firm dedicated to providing exceptional real estate services throughout Malawi. With years of expertise in the local market, we combine deep industry knowledge with innovative solutions to deliver outstanding results for our clients.</p>
-					<p>Our team of experienced professionals is committed to maintaining the highest standards of integrity, professionalism, and client service in every transaction and consultation.</p>
-				</div>
-				<div class="overview-stats">
-					<div class="stat-item">
-						<div class="stat-number">10+</div>
-						<div class="stat-label">Years Experience</div>
+	<ScrollAnimation animationType="fade-up" delay={200}>
+		<section class="overview-section">
+			<div class="container">
+				<div class="overview-content">
+					<div class="overview-text">
+						<h2>Who We Are</h2>
+						<p>Terrestrial Property Consulting Limited (TCP Malawi) is a premier property consulting firm dedicated to providing exceptional real estate services throughout Malawi. With years of expertise in the local market, we combine deep industry knowledge with innovative solutions to deliver outstanding results for our clients.</p>
+						<p>Our team of experienced professionals is committed to maintaining the highest standards of integrity, professionalism, and client service in every transaction and consultation.</p>
 					</div>
-					<div class="stat-item">
-						<div class="stat-number">500+</div>
-						<div class="stat-label">Properties Valued</div>
-					</div>
-					<div class="stat-item">
-						<div class="stat-number">100%</div>
-						<div class="stat-label">Client Satisfaction</div>
+					<div class="overview-stats">
+						<div class="stat-item">
+							<div class="stat-number">10+</div>
+							<div class="stat-label">Years Experience</div>
+						</div>
+						<div class="stat-item">
+							<div class="stat-number">500+</div>
+							<div class="stat-label">Properties Valued</div>
+						</div>
+						<div class="stat-item">
+							<div class="stat-number">100%</div>
+							<div class="stat-label">Client Satisfaction</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</ScrollAnimation>
 
 	<!-- Vision & Mission -->
-	<section class="vision-mission-section">
-		<div class="container">
-			<div class="vm-grid">
-				<div class="vm-card vision-card">
-					<div class="vm-icon">👁️</div>
-					<h3>Our Vision</h3>
-					<p>To be the distinguished mark of property professionals in Malawi, setting the standard for excellence and innovation in real estate consulting.</p>
-				</div>
-				<div class="vm-card mission-card">
-					<div class="vm-icon">🎯</div>
-					<h3>Our Mission</h3>
-					<p>Providing first-class real estate services by applying exceptional property skills, ensuring client success through professional expertise and unwavering commitment.</p>
+	<ScrollAnimation animationType="fade-up" delay={300}>
+		<section class="vision-mission-section">
+			<div class="container">
+				<div class="vm-grid">
+					<div class="vm-card vision-card">
+						<div class="vm-icon">👁️</div>
+						<h3>Our Vision</h3>
+						<p>To be the distinguished mark of property professionals in Malawi, setting the standard for excellence and innovation in real estate consulting.</p>
+					</div>
+					<div class="vm-card mission-card">
+						<div class="vm-icon">🎯</div>
+						<h3>Our Mission</h3>
+						<p>Providing first-class real estate services by applying exceptional property skills, ensuring client success through professional expertise and unwavering commitment.</p>
+					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</ScrollAnimation>
 
 	<!-- Core Values -->
-	<section class="values-section">
-		<div class="container">
-			<div class="section-header">
-				<h2>Our Core Values</h2>
-				<p>The fundamental principles that guide our business and define our commitment to excellence</p>
+	<ScrollAnimation animationType="fade-up" delay={400}>
+		<section class="values-section">
+			<div class="container">
+				<div class="section-header">
+					<h2>Our Core Values</h2>
+					<p>The fundamental principles that guide our business and define our commitment to excellence</p>
+				</div>
+				
+				<div class="values-grid">
+					<div class="value-card">
+						<div class="value-icon-wrapper">
+							<div class="value-icon">🤝</div>
+						</div>
+						<h3>Integrity</h3>
+						<p>We conduct business with unwavering honesty and transparency in all our dealings, building trust through ethical practices.</p>
+					</div>
+					
+					<div class="value-card">
+						<div class="value-icon-wrapper">
+							<div class="value-icon">👔</div>
+						</div>
+						<h3>Professionalism</h3>
+						<p>We maintain the highest standards of professional conduct and expertise, delivering services with precision and reliability.</p>
+					</div>
+					
+					<div class="value-card">
+						<div class="value-icon-wrapper">
+							<div class="value-icon">⭐</div>
+						</div>
+						<h3>Excellence</h3>
+						<p>We strive for excellence in every service we deliver, continuously improving and exceeding client expectations.</p>
+					</div>
+					
+					<div class="value-card">
+						<div class="value-icon-wrapper">
+							<div class="value-icon">🎯</div>
+						</div>
+						<h3>Client Focus</h3>
+						<p>We put our clients' needs at the center of everything we do, ensuring personalized solutions and exceptional service.</p>
+					</div>
+					
+					<div class="value-card">
+						<div class="value-icon-wrapper">
+							<div class="value-icon">💡</div>
+						</div>
+						<h3>Innovation</h3>
+						<p>We embrace innovative solutions and modern approaches to meet evolving real estate challenges in Malawi.</p>
+					</div>
+					
+					<div class="value-card">
+						<div class="value-icon-wrapper">
+							<div class="value-icon">�</div>
+						</div>
+						<h3>Sustainability</h3>
+						<p>We promote sustainable development practices that benefit our clients and contribute to Malawi's future growth.</p>
+					</div>
+				</div>
 			</div>
-			
-			<div class="values-grid">
-				<div class="value-card">
-					<div class="value-icon-wrapper">
-						<div class="value-icon">🤝</div>
-					</div>
-					<h3>Integrity</h3>
-					<p>We conduct business with unwavering honesty and transparency in all our dealings, building trust through ethical practices.</p>
-				</div>
-				
-				<div class="value-card">
-					<div class="value-icon-wrapper">
-						<div class="value-icon">👔</div>
-					</div>
-					<h3>Professionalism</h3>
-					<p>We maintain the highest standards of professional conduct and expertise, delivering services with precision and reliability.</p>
-				</div>
-				
-				<div class="value-card">
-					<div class="value-icon-wrapper">
-						<div class="value-icon">⭐</div>
-					</div>
-					<h3>Excellence</h3>
-					<p>We strive for excellence in every service we deliver, continuously improving and exceeding client expectations.</p>
-				</div>
-				
-				<div class="value-card">
-					<div class="value-icon-wrapper">
-						<div class="value-icon">🎯</div>
-					</div>
-					<h3>Client Focus</h3>
-					<p>We put our clients' needs at the center of everything we do, ensuring personalized solutions and exceptional service.</p>
-				</div>
-				
-				<div class="value-card">
-					<div class="value-icon-wrapper">
-						<div class="value-icon">💡</div>
-					</div>
-					<h3>Innovation</h3>
-					<p>We embrace innovative solutions and modern approaches to meet evolving real estate challenges in Malawi.</p>
-				</div>
-				
-				<div class="value-card">
-					<div class="value-icon-wrapper">
-						<div class="value-icon">�</div>
-					</div>
-					<h3>Sustainability</h3>
-					<p>We promote sustainable development practices that benefit our clients and contribute to Malawi's future growth.</p>
-				</div>
-			</div>
-		</div>
-	</section>
+		</section>
+	</ScrollAnimation>
 
 	<!-- CTA Section -->
-	<section class="cta-section">
-		<div class="container">
-			<div class="cta-content">
-				<h2>Partner With Malawi's Property Experts</h2>
-				<p>Experience the difference of working with a team that combines local expertise with international standards of excellence.</p>
-				<div class="cta-buttons">
-					<a href="/contact" class="btn btn-primary btn-large">Get Started Today</a>
-					<a href="/services" class="btn btn-secondary btn-large">Our Services</a>
+	<ScrollAnimation animationType="fade-up" delay={600}>
+		<section class="cta-section">
+			<div class="container">
+				<div class="cta-content">
+					<h2>Partner With Malawi's Property Experts</h2>
+					<p>Experience the difference of working with a team that combines local expertise with international standards of excellence.</p>
+					<div class="cta-buttons">
+						<a href="/contact" class="btn btn-primary btn-large">Get Started Today</a>
+						<a href="/services" class="btn btn-secondary btn-large">Our Services</a>
+					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</ScrollAnimation>
 </main>
 
+<Footer />
 
 <style>
 	:global(*) {
@@ -309,20 +264,7 @@
 		color: var(--tcp-primary);
 	}
 
-	.hamburger {
-		display: none;
-		flex-direction: column;
-		cursor: pointer;
-		gap: 4px;
-	}
-
-	.hamburger span {
-		width: 24px;
-		height: 2px;
-		background: var(--foreground);
-		transition: all var(--transition-fast) ease;
-	}
-
+	
 	/* Buttons */
 	.btn {
 		display: inline-flex;
@@ -575,7 +517,7 @@
 
 	.values-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 		gap: var(--spacing-6);
 	}
 
@@ -643,9 +585,14 @@
 		text-align: center;
 	}
 
+	.cta-content {
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
 	.cta-content h2 {
 		font-size: var(--text-3xl);
-		font-weight: 700;
+		font-weight: 600;
 		margin-bottom: var(--spacing-4);
 	}
 
@@ -659,54 +606,11 @@
 		display: flex;
 		gap: var(--spacing-4);
 		justify-content: center;
-		flex-wrap: wrap;
-	}
-
-	.cta-buttons .btn-secondary {
-		color: white;
-		border-color: rgba(255, 255, 255, 0.5);
-	}
-
-	.cta-buttons .btn-secondary:hover {
-		background: rgba(255, 255, 255, 0.1);
-		border-color: white;
-	}
-
-	/* Basic hover effects */
-	.value-card:hover {
-		transform: translateY(-4px);
-		box-shadow: var(--shadow-xl);
-		transition: all 0.3s ease;
-	}
-
-	.value-card:hover .value-icon {
-		transform: scale(1.1);
-		background: var(--tcp-primary-dark);
-		transition: all 0.3s ease;
-	}
-
-	
-	/* Mobile Menu */
-	.mobile-menu {
-		display: none;
-		position: absolute;
-		top: 100%;
-		left: 0;
-		right: 0;
-		background: var(--background);
-		border-bottom: 1px solid var(--border);
-		flex-direction: column;
-		padding: var(--spacing-4);
-		gap: var(--spacing-4);
-		box-shadow: var(--shadow-lg);
-	}
-
-	.mobile-menu.active {
-		display: flex;
 	}
 
 	/* Responsive Design */
 	@media (max-width: 768px) {
+		
 		.hero-content h1 {
 			font-size: var(--text-3xl);
 		}
@@ -720,41 +624,37 @@
 			gap: var(--spacing-8);
 		}
 
-		.overview-stats {
-			flex-direction: row;
-			justify-content: space-around;
-		}
-
 		.vm-grid {
 			grid-template-columns: 1fr;
 			gap: var(--spacing-6);
 		}
 
 		.values-grid {
-			grid-template-columns: 1fr;
-		}
-
-		.cta-content h2 {
-			font-size: var(--text-2xl);
-		}
-	}
-
-	@media (max-width: 480px) {
-		.hero-content h1 {
-			font-size: var(--text-2xl);
-		}
-
-		.hero-subtitle {
-			font-size: var(--text-base);
-		}
-
-		.overview-stats {
-			flex-direction: column;
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 			gap: var(--spacing-4);
 		}
 
 		.value-card {
 			padding: var(--spacing-6);
+		}
+
+		.cta-content h2 {
+			font-size: var(--text-2xl);
+		}
+
+		.cta-buttons {
+			flex-direction: column;
+			gap: var(--spacing-3);
+		}
+
+		.btn-large {
+			width: 100%;
+			text-align: center;
+		}
+
+		.overview-stats {
+			flex-direction: column;
+			gap: var(--spacing-4);
 		}
 
 		.value-icon-wrapper {
