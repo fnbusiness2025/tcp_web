@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte';
 	import ScrollAnimation from '$lib/ScrollAnimation.svelte';
 	import Navigation from '$lib/Navigation.svelte';
-	import Footer from '$lib/Footer.svelte';
 </script>
 
 <svelte:head>
@@ -156,8 +155,6 @@
 		</section>
 	</ScrollAnimation>
 </main>
-
-<Footer />
 
 <style>
 	:global(*) {

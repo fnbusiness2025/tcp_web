@@ -3,7 +3,6 @@
 	import { onMount } from 'svelte';
 	import ScrollAnimation from '$lib/ScrollAnimation.svelte';
 	import Navigation from '$lib/Navigation.svelte';
-	import Footer from '$lib/Footer.svelte';
 
 	let heroVisible = false;
 
@@ -12,6 +11,40 @@
 		setTimeout(() => {
 			heroVisible = true;
 		}, 300);
+
+		// Animated counter functionality
+		const counters = document.querySelectorAll('.stat-number');
+		const speed = 200;
+
+		const animateCounters = () => {
+			counters.forEach(counter => {
+				const target = +counter.getAttribute('data-target');
+				const count = +counter.innerText;
+				const increment = target / speed;
+
+				if (count < target) {
+					counter.innerText = Math.ceil(count + increment);
+					setTimeout(() => animateCounters(), 10);
+				} else {
+					counter.innerText = target + '+';
+				}
+			});
+		};
+
+		// Trigger counter animation when stats section is visible
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					animateCounters();
+					observer.unobserve(entry.target);
+				}
+			});
+		}, { threshold: 0.5 });
+
+		const statsSection = document.querySelector('.stats-section');
+		if (statsSection) {
+			observer.observe(statsSection);
+		}
 	});
 </script>
 
@@ -95,38 +128,104 @@
 					<h2>Featured Properties</h2>
 				</div>
 			<div class="properties-grid">
-				<div class="property-card card">
+				<div class="property-card card animated-card">
+					<div class="property-badge featured-badge">⭐ Featured</div>
 					<div class="property-image">
 						<img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop" alt="Property" />
+						<div class="property-overlay">
+							<div class="property-stats">
+								<span class="stat">🏠 3 Beds</span>
+								<span class="stat">🚿 2 Baths</span>
+								<span class="stat">📐 1,200 sqft</span>
+							</div>
+						</div>
 					</div>
 					<div class="property-content">
 						<div class="property-location">📍 Lilongwe City Center</div>
 						<div class="property-price">MWK 45,000,000</div>
+						<div class="property-actions">
+							<button class="view-btn">View Details</button>
+							<button class="save-btn">❤️</button>
+						</div>
 					</div>
 				</div>
 				
-				<div class="property-card card">
+				<div class="property-card card animated-card">
+					<div class="property-badge hot-badge">🔥 Hot Deal</div>
 					<div class="property-image">
 						<img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&h=300&fit=crop" alt="Property" />
+						<div class="property-overlay">
+							<div class="property-stats">
+								<span class="stat">🏠 4 Beds</span>
+								<span class="stat">🚿 3 Baths</span>
+								<span class="stat">📐 2,500 sqft</span>
+							</div>
+						</div>
 					</div>
 					<div class="property-content">
 						<div class="property-location">📍 Blantyre Commercial</div>
 						<div class="property-price">MWK 32,500,000</div>
+						<div class="property-actions">
+							<button class="view-btn">View Details</button>
+							<button class="save-btn">❤️</button>
+						</div>
 					</div>
 				</div>
 				
-				<div class="property-card card">
+				<div class="property-card card animated-card">
+					<div class="property-badge new-badge">✨ New</div>
 					<div class="property-image">
 						<img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=400&h=300&fit=crop" alt="Property" />
+						<div class="property-overlay">
+							<div class="property-stats">
+								<span class="stat">🏠 5 Beds</span>
+								<span class="stat">🚿 4 Baths</span>
+								<span class="stat">📐 3,200 sqft</span>
+							</div>
+						</div>
 					</div>
 					<div class="property-content">
 						<div class="property-location">📍 Lake Malawi Shore</div>
 						<div class="property-price">MWK 28,750,000</div>
+						<div class="property-actions">
+							<button class="view-btn">View Details</button>
+							<button class="save-btn">❤️</button>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
+	</ScrollAnimation>
+
+	<!-- Animated Stats Section -->
+	<ScrollAnimation animationType="fade-up" delay={300}>
+		<section class="stats-section">
+			<div class="container">
+				<div class="stats-grid">
+					<div class="stat-card">
+						<div class="stat-number" data-target="500">0</div>
+						<div class="stat-label">Properties Valued</div>
+						<div class="stat-icon">🏠</div>
+					</div>
+					<div class="stat-card">
+						<div class="stat-number" data-target="50">0</div>
+						<div class="stat-label">Years Experience</div>
+						<div class="stat-icon">⭐</div>
+					</div>
+					<div class="stat-card">
+						<div class="stat-number" data-target="1000">0</div>
+						<div class="stat-label">Happy Clients</div>
+						<div class="stat-icon">😊</div>
+					</div>
+					<div class="stat-card">
+						<div class="stat-number" data-target="25">0</div>
+						<div class="stat-label">Expert Team</div>
+						<div class="stat-icon">👥</div>
+					</div>
+				</div>
+			</div>
+		</section>
 	</ScrollAnimation>
 
 	<!-- Trust Line / Value Statement -->
@@ -156,8 +255,6 @@
 
 	
 	</main>
-
-<Footer />
 
 <style>
 
@@ -956,6 +1053,472 @@
 		font-size: var(--text-xl);
 		font-weight: 600;
 		color: var(--tcp-primary);
+	}
+
+	/* Animated Property Cards */
+	.animated-card {
+		animation: float 6s ease-in-out infinite;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.animated-card:nth-child(2) {
+		animation-delay: 2s;
+	}
+
+	.animated-card:nth-child(3) {
+		animation-delay: 4s;
+	}
+
+	@keyframes float {
+		0%, 100% {
+			transform: translateY(0px);
+		}
+		50% {
+			transform: translateY(-10px);
+		}
+	}
+
+	.animated-card::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: -100%;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+		transition: left 0.5s;
+	}
+
+	.animated-card:hover::before {
+		left: 100%;
+	}
+
+	/* Property Badges */
+	.property-badge {
+		position: absolute;
+		top: 12px;
+		left: 12px;
+		padding: 6px 12px;
+		border-radius: 20px;
+		font-size: 12px;
+		font-weight: 600;
+		z-index: 10;
+		animation: pulse 2s infinite;
+	}
+
+	.featured-badge {
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+	}
+
+	.hot-badge {
+		background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+		color: white;
+	}
+
+	.new-badge {
+		background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+		color: white;
+	}
+
+	@keyframes pulse {
+		0%, 100% {
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(1.05);
+		}
+	}
+
+	/* Property Overlay */
+	.property-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+		opacity: 0;
+		transition: opacity 0.3s ease;
+		display: flex;
+		align-items: flex-end;
+		padding: 16px;
+	}
+
+	.property-card:hover .property-overlay {
+		opacity: 1;
+	}
+
+	.property-stats {
+		display: flex;
+		gap: 12px;
+		flex-wrap: wrap;
+	}
+
+	.stat {
+		background: rgba(255, 255, 255, 0.9);
+		padding: 4px 8px;
+		border-radius: 12px;
+		font-size: 11px;
+		font-weight: 600;
+		color: #333;
+		backdrop-filter: blur(10px);
+	}
+
+	/* Property Actions */
+	.property-actions {
+		display: flex;
+		gap: 8px;
+		margin-top: 12px;
+		opacity: 0;
+		transform: translateY(10px);
+		transition: all 0.3s ease;
+	}
+
+	.property-card:hover .property-actions {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	.view-btn, .save-btn {
+		padding: 8px 16px;
+		border: none;
+		border-radius: 8px;
+		font-size: 14px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s ease;
+	}
+
+	.view-btn {
+		background: var(--tcp-primary);
+		color: white;
+		flex: 1;
+	}
+
+	.view-btn:hover {
+		background: var(--tcp-primary-dark);
+		transform: translateY(-2px);
+	}
+
+	.save-btn {
+		background: white;
+		color: var(--tcp-primary);
+		border: 2px solid var(--tcp-primary);
+		width: 40px;
+		height: 36px;
+		padding: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.save-btn:hover {
+		background: var(--tcp-primary);
+		color: white;
+		transform: translateY(-2px) scale(1.1);
+	}
+
+	/* Enhanced hover effects */
+	.animated-card:hover {
+		transform: translateY(-12px) scale(1.02);
+		box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+		border-color: var(--tcp-primary);
+	}
+
+	.animated-card:hover .property-image img {
+		transform: scale(1.1);
+		filter: brightness(1.1);
+	}
+
+	/* Enhanced Hero Particles */
+	.animated-particles {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		z-index: 1;
+	}
+
+	.particle-1, .particle-2, .particle-3 {
+		position: absolute;
+		background: rgba(255, 255, 255, 0.1);
+		border-radius: 50%;
+		animation: float-particle 15s infinite ease-in-out;
+	}
+
+	.particle-1 {
+		width: 80px;
+		height: 80px;
+		top: 20%;
+		left: 10%;
+		animation-delay: 0s;
+	}
+
+	.particle-2 {
+		width: 60px;
+		height: 60px;
+		top: 60%;
+		right: 15%;
+		animation-delay: 5s;
+	}
+
+	.particle-3 {
+		width: 100px;
+		height: 100px;
+		bottom: 20%;
+		left: 20%;
+		animation-delay: 10s;
+	}
+
+	@keyframes float-particle {
+		0%, 100% {
+			transform: translateY(0px) rotate(0deg);
+			opacity: 0.3;
+		}
+		25% {
+			transform: translateY(-20px) rotate(90deg);
+			opacity: 0.6;
+		}
+		50% {
+			transform: translateY(-40px) rotate(180deg);
+			opacity: 0.4;
+		}
+		75% {
+			transform: translateY(-20px) rotate(270deg);
+			opacity: 0.7;
+		}
+	}
+
+	/* Additional floating shapes */
+	.floating-shapes {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		z-index: 1;
+	}
+
+	.shape {
+		position: absolute;
+		background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+		border-radius: 50%;
+		animation: float-shape 20s infinite ease-in-out;
+	}
+
+	.shape-1 {
+		width: 120px;
+		height: 120px;
+		top: 10%;
+		right: 10%;
+		animation-delay: 0s;
+	}
+
+	.shape-2 {
+		width: 80px;
+		height: 80px;
+		bottom: 15%;
+		right: 25%;
+		animation-delay: 7s;
+	}
+
+	.shape-3 {
+		width: 150px;
+		height: 150px;
+		top: 50%;
+		left: 5%;
+		animation-delay: 14s;
+	}
+
+	.shape-4 {
+		width: 60px;
+		height: 60px;
+		top: 30%;
+		left: 30%;
+		animation-delay: 3s;
+	}
+
+	.shape-5 {
+		width: 90px;
+		height: 90px;
+		bottom: 10%;
+		left: 15%;
+		animation-delay: 11s;
+	}
+
+	.shape-6 {
+		width: 110px;
+		height: 110px;
+		top: 70%;
+		right: 5%;
+		animation-delay: 6s;
+	}
+
+	@keyframes float-shape {
+		0%, 100% {
+			transform: translateY(0px) translateX(0px) rotate(0deg);
+			opacity: 0.2;
+		}
+		33% {
+			transform: translateY(-30px) translateX(20px) rotate(120deg);
+			opacity: 0.4;
+		}
+		66% {
+			transform: translateY(20px) translateX(-30px) rotate(240deg);
+			opacity: 0.3;
+		}
+	}
+
+	/* Animated Stats Section */
+	.stats-section {
+		padding: var(--spacing-20) 0;
+		background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+		color: var(--foreground);
+		position: relative;
+		overflow: hidden;
+	}
+
+	.stats-section::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: radial-gradient(circle at 20% 80%, rgba(147, 199, 80, 0.1) 0%, transparent 50%),
+							radial-gradient(circle at 80% 20%, rgba(147, 199, 80, 0.1) 0%, transparent 50%),
+							radial-gradient(circle at 40% 40%, rgba(147, 199, 80, 0.05) 0%, transparent 50%);
+		animation: drift 30s ease-in-out infinite;
+	}
+
+	@keyframes drift {
+		0%, 100% {
+			transform: translate(0, 0) scale(1);
+		}
+		33% {
+			transform: translate(20px, -20px) scale(1.1);
+		}
+		66% {
+			transform: translate(-20px, 20px) scale(0.9);
+		}
+	}
+
+	.stats-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+		gap: var(--spacing-8);
+		position: relative;
+		z-index: 1;
+		max-width: 1000px;
+		margin: 0 auto;
+	}
+
+	.stat-card {
+		text-align: center;
+		padding: var(--spacing-8) var(--spacing-6);
+		background: white;
+		border-radius: 16px;
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+		border: 1px solid rgba(147, 199, 80, 0.2);
+		transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		position: relative;
+		overflow: hidden;
+	}
+
+	.stat-card::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 4px;
+		background: linear-gradient(90deg, var(--tcp-primary), var(--tcp-primary-dark));
+		transform: scaleX(0);
+		transition: transform 0.4s ease;
+	}
+
+	.stat-card:hover::before {
+		transform: scaleX(1);
+	}
+
+	.stat-card::after {
+		content: '';
+		position: absolute;
+		top: -50%;
+		left: -50%;
+		width: 200%;
+		height: 200%;
+		background: radial-gradient(circle, rgba(147, 199, 80, 0.05) 0%, transparent 70%);
+		opacity: 0;
+		transition: opacity 0.4s ease;
+		pointer-events: none;
+	}
+
+	.stat-card:hover::after {
+		opacity: 1;
+	}
+
+	.stat-card:hover {
+		transform: translateY(-12px) scale(1.02);
+		box-shadow: 0 20px 40px rgba(147, 199, 80, 0.15);
+		border-color: var(--tcp-primary);
+	}
+
+	.stat-number {
+		font-size: 3.5rem;
+		font-weight: 800;
+		margin-bottom: var(--spacing-3);
+		color: var(--tcp-primary);
+		position: relative;
+		z-index: 2;
+		line-height: 1;
+		text-shadow: 0 2px 4px rgba(147, 199, 80, 0.2);
+	}
+
+	.stat-label {
+		font-size: var(--text-lg);
+		font-weight: 600;
+		margin-bottom: var(--spacing-4);
+		color: var(--foreground);
+		position: relative;
+		z-index: 2;
+		opacity: 0.8;
+	}
+
+	.stat-icon {
+		font-size: 3rem;
+		margin-bottom: var(--spacing-4);
+		opacity: 0.9;
+		animation: gentle-bounce 3s infinite ease-in-out;
+		position: relative;
+		z-index: 2;
+		filter: drop-shadow(0 4px 8px rgba(147, 199, 80, 0.2));
+	}
+
+	.stat-card:nth-child(2) .stat-icon {
+		animation-delay: 0.75s;
+	}
+
+	.stat-card:nth-child(3) .stat-icon {
+		animation-delay: 1.5s;
+	}
+
+	.stat-card:nth-child(4) .stat-icon {
+		animation-delay: 2.25s;
+	}
+
+	@keyframes gentle-bounce {
+		0%, 100% {
+			transform: translateY(0) scale(1);
+		}
+		50% {
+			transform: translateY(-8px) scale(1.05);
+		}
 	}
 
 	/* Trust Section */
