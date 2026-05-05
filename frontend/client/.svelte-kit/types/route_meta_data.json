@@ -2,9 +2,11 @@
 	"/": [],
 	"/about": [],
 	"/contact": [],
+	"/property/[id]": [],
 	"/services": [],
 	"/services/asset-tagging-tracking": [],
 	"/services/plant-machinery-valuations": [],
 	"/services/property-management": [],
-	"/services/property-valuations": []
+	"/services/property-valuations": [],
+	"/signin": []
 }

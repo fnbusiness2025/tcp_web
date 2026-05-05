@@ -5,47 +5,385 @@
 	import Navigation from '$lib/Navigation.svelte';
 
 	let heroVisible = false;
+	
+	// Contact form state
+	let formData = {
+		name: '',
+		email: '',
+		phone: '',
+		service: '',
+		message: ''
+	};
+	
+	let formErrors = {
+		name: false,
+		email: false,
+		message: false
+	};
+	
+	let isSubmitting = false;
+	let showSuccess = false;
+	
+	// Chatbot state
+	let chatOpen = false;
+	let chatMessages = [
+		{ type: 'bot', text: 'Hello! Welcome to TCP Malawi. How can I help you today?' }
+	];
+	let currentMessage = '';
+
+	// Search and filter state
+	let searchQuery = '';
+	let selectedCity = '';
+	let selectedDistrict = '';
+	let selectedPropertyType = '';
+	let selectedListingType = '';
+	let priceRange = '';
+	
+	// Malawi Cities and Districts Library
+	const malawiLocations = {
+		northern: [
+			{ city: 'Mzuzu', district: 'Mzimba' },
+			{ city: 'Karonga', district: 'Karonga' },
+			{ city: 'Rumphi', district: 'Rumphi' },
+			{ city: 'Nkhata Bay', district: 'Nkhata Bay' },
+			{ city: 'Likoma', district: 'Likoma' },
+			{ city: 'Chitipa', district: 'Chitipa' }
+		],
+		central: [
+			{ city: 'Lilongwe', district: 'Lilongwe' },
+			{ city: 'Salima', district: 'Salima' },
+			{ city: 'Dedza', district: 'Dedza' },
+			{ city: 'Ntcheu', district: 'Ntcheu' },
+			{ city: 'Ntchisi', district: 'Ntchisi' },
+			{ city: 'Kasungu', district: 'Kasungu' },
+			{ city: 'Mchinji', district: 'Mchinji' },
+			{ city: 'Dowa', district: 'Dowa' }
+		],
+		southern: [
+			{ city: 'Blantyre', district: 'Blantyre' },
+			{ city: 'Zomba', district: 'Zomba' },
+			{ city: 'Mangochi', district: 'Mangochi' },
+			{ city: 'Machinga', district: 'Machinga' },
+			{ city: 'Balaka', district: 'Balaka' },
+			{ city: 'Nsanje', district: 'Nsanje' },
+			{ city: 'Chikwawa', district: 'Chikwawa' },
+			{ city: 'Thyolo', district: 'Thyolo' },
+			{ city: 'Mulanje', district: 'Mulanje' },
+			{ city: 'Phalombe', district: 'Phalombe' },
+			{ city: 'Chiradzulu', district: 'Chiradzulu' },
+			{ city: 'Neno', district: 'Neno' }
+		]
+	};
+	
+	// Extract all cities and districts for dropdowns
+	const allCities = ['All Cities', ...new Set(
+		[...malawiLocations.northern, ...malawiLocations.central, ...malawiLocations.southern]
+			.map(loc => loc.city)
+	)];
+	
+	const allDistricts = ['All Districts', ...new Set(
+		[...malawiLocations.northern, ...malawiLocations.central, ...malawiLocations.southern]
+			.map(loc => loc.district)
+	)];
+	
+	// Filter options
+	const propertyTypes = ['All Types', 'Residential', 'Commercial', 'Industrial', 'Agricultural', 'Land'];
+	const listingTypes = ['All Types', 'For Sale', 'For Rent', 'For Lease'];
+	const priceRanges = ['Any Price', 'Under MWK 10M', 'MWK 10M - 30M', 'MWK 30M - 50M', 'Over MWK 50M'];
+	
+	// Sample properties data
+	let properties = [
+		{
+			id: 1,
+			title: 'Modern City Apartment',
+			location: 'Lilongwe City Center',
+			price: 45000000,
+			type: 'Residential',
+			listingType: 'For Sale',
+			city: 'Lilongwe',
+			district: 'Lilongwe',
+			image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop',
+			beds: 3,
+			baths: 2,
+			sqft: 1200,
+			badge: 'Featured'
+		},
+		{
+			id: 2,
+			title: 'Commercial Office Space',
+			location: 'Blantyre Commercial',
+			price: 32500000,
+			type: 'Commercial',
+			listingType: 'For Lease',
+			city: 'Blantyre',
+			district: 'Blantyre',
+			image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&h=300&fit=crop',
+			beds: 0,
+			baths: 3,
+			sqft: 2500,
+			badge: 'Hot Deal'
+		},
+		{
+			id: 3,
+			title: 'Lakefront Property',
+			location: 'Lake Malawi Shore',
+			price: 28750000,
+			type: 'Residential',
+			listingType: 'For Sale',
+			city: 'Mangochi',
+			district: 'Mangochi',
+			image: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=400&h=300&fit=crop',
+			beds: 5,
+			baths: 4,
+			sqft: 3200,
+			badge: 'New'
+		},
+		{
+			id: 4,
+			title: 'Industrial Warehouse',
+			location: 'Lilongwe Industrial',
+			price: 55000000,
+			type: 'Industrial',
+			listingType: 'For Sale',
+			city: 'Lilongwe',
+			district: 'Lilongwe',
+			image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&h=300&fit=crop',
+			beds: 0,
+			baths: 2,
+			sqft: 5000,
+			badge: 'Featured'
+		},
+		{
+			id: 5,
+			title: 'Agricultural Land',
+			location: 'Rural Blantyre',
+			price: 15000000,
+			type: 'Agricultural',
+			listingType: 'For Sale',
+			city: 'Blantyre',
+			district: 'Blantyre',
+			image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop',
+			beds: 0,
+			baths: 0,
+			sqft: 10000,
+			badge: 'New'
+		},
+		{
+			id: 6,
+			title: 'Luxury Villa',
+			location: 'Mzuzu Heights',
+			price: 75000000,
+			type: 'Residential',
+			listingType: 'For Rent',
+			city: 'Mzuzu',
+			district: 'Mzimba',
+			image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop',
+			beds: 6,
+			baths: 5,
+			sqft: 4500,
+			badge: 'Hot Deal'
+		},
+		{
+			id: 7,
+			title: 'Downtown Apartment',
+			location: 'Blantyre City Center',
+			price: 25000000,
+			type: 'Residential',
+			listingType: 'For Rent',
+			city: 'Blantyre',
+			district: 'Blantyre',
+			image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400&h=300&fit=crop',
+			beds: 2,
+			baths: 1,
+			sqft: 800,
+			badge: 'New'
+		},
+		{
+			id: 8,
+			title: 'Beach House',
+			location: 'Senga Bay',
+			price: 35000000,
+			type: 'Residential',
+			listingType: 'For Sale',
+			city: 'Salima',
+			district: 'Salima',
+			image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&h=300&fit=crop',
+			beds: 4,
+			baths: 3,
+			sqft: 2800,
+			badge: 'Featured'
+		},
+		{
+			id: 9,
+			title: 'Shop Space',
+			location: 'Zomba Town',
+			price: 8000000,
+			type: 'Commercial',
+			listingType: 'For Lease',
+			city: 'Zomba',
+			district: 'Zomba',
+			image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop',
+			beds: 0,
+			baths: 1,
+			sqft: 600,
+			badge: 'Hot Deal'
+		}
+	];
+	
+	let filteredProperties = properties;
+
+	// Filter functions
+	function applyFilters() {
+		filteredProperties = properties.filter(property => {
+			// Search query filter
+			const matchesSearch = searchQuery === '' || 
+				property.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				property.location.toLowerCase().includes(searchQuery.toLowerCase());
+			
+			// City filter
+			const matchesCity = selectedCity === '' || selectedCity === 'All Cities' || property.city === selectedCity;
+			
+			// District filter
+			const matchesDistrict = selectedDistrict === '' || selectedDistrict === 'All Districts' || property.district === selectedDistrict;
+			
+			// Property type filter
+			const matchesType = selectedPropertyType === '' || selectedPropertyType === 'All Types' || property.type === selectedPropertyType;
+			
+			// Listing type filter (Buy/Sell/Rent)
+			const matchesListingType = selectedListingType === '' || selectedListingType === 'All Types' || property.listingType === selectedListingType;
+			
+			// Price range filter
+			let matchesPrice = true;
+			if (priceRange && priceRange !== 'Any Price') {
+				switch(priceRange) {
+					case 'Under MWK 10M':
+						matchesPrice = property.price < 10000000;
+						break;
+					case 'MWK 10M - 30M':
+						matchesPrice = property.price >= 10000000 && property.price <= 30000000;
+						break;
+					case 'MWK 30M - 50M':
+						matchesPrice = property.price > 30000000 && property.price <= 50000000;
+						break;
+					case 'Over MWK 50M':
+						matchesPrice = property.price > 50000000;
+						break;
+				}
+			}
+			
+			return matchesSearch && matchesCity && matchesDistrict && matchesType && matchesListingType && matchesPrice;
+		});
+	}
+
+	function resetFilters() {
+		searchQuery = '';
+		selectedCity = '';
+		selectedDistrict = '';
+		selectedPropertyType = '';
+		selectedListingType = '';
+		priceRange = '';
+		applyFilters();
+	}
 
 	onMount(() => {
 		// Trigger hero animations
 		setTimeout(() => {
 			heroVisible = true;
 		}, 300);
-
-		// Animated counter functionality
-		const counters = document.querySelectorAll('.stat-number');
-		const speed = 200;
-
-		const animateCounters = () => {
-			counters.forEach(counter => {
-				const target = +counter.getAttribute('data-target');
-				const count = +counter.innerText;
-				const increment = target / speed;
-
-				if (count < target) {
-					counter.innerText = Math.ceil(count + increment);
-					setTimeout(() => animateCounters(), 10);
-				} else {
-					counter.innerText = target + '+';
-				}
-			});
-		};
-
-		// Trigger counter animation when stats section is visible
-		const observer = new IntersectionObserver((entries) => {
-			entries.forEach(entry => {
-				if (entry.isIntersecting) {
-					animateCounters();
-					observer.unobserve(entry.target);
-				}
-			});
-		}, { threshold: 0.5 });
-
-		const statsSection = document.querySelector('.stats-section');
-		if (statsSection) {
-			observer.observe(statsSection);
-		}
 	});
+
+	// Contact form submission
+	function handleSubmit() {
+		// Reset errors
+		formErrors = { name: false, email: false, message: false };
+		
+		// Validate form
+		let isValid = true;
+		
+		if (!formData.name.trim()) {
+			formErrors.name = true;
+			isValid = false;
+		}
+		
+		if (!formData.email.trim() || !formData.email.includes('@')) {
+			formErrors.email = true;
+			isValid = false;
+		}
+		
+		if (!formData.message.trim()) {
+			formErrors.message = true;
+			isValid = false;
+		}
+		
+		if (!isValid) return;
+		
+		// Simulate form submission
+		isSubmitting = true;
+		
+		setTimeout(() => {
+			isSubmitting = false;
+			showSuccess = true;
+			
+			// Reset form
+			formData = {
+				name: '',
+				email: '',
+				phone: '',
+				service: '',
+				message: ''
+			};
+			
+			// Hide success message after 3 seconds
+			setTimeout(() => {
+				showSuccess = false;
+			}, 3000);
+		}, 1500);
+	}
+
+	// Chatbot functions
+	function toggleChat() {
+		chatOpen = !chatOpen;
+	}
+
+	function sendMessage() {
+		if (!currentMessage.trim()) return;
+		
+		// Add user message
+		chatMessages = [...chatMessages, { type: 'user', text: currentMessage }];
+		const userMessage = currentMessage;
+		currentMessage = '';
+		
+		// Simulate bot response
+		setTimeout(() => {
+			const botResponse = getBotResponse(userMessage);
+			chatMessages = [...chatMessages, { type: 'bot', text: botResponse }];
+		}, 1000);
+	}
+
+	function getBotResponse(message) {
+		const lowerMessage = message.toLowerCase();
+		
+		if (lowerMessage.includes('property') || lowerMessage.includes('valuation')) {
+			return 'We offer comprehensive property valuation services. Our expert team provides accurate assessments for residential, commercial, and industrial properties across Malawi.';
+		} else if (lowerMessage.includes('contact') || lowerMessage.includes('phone') || lowerMessage.includes('email')) {
+			return 'You can reach us at +265 888 141 612 or +265 995 700 234. Our email is tpcmalawi@gmail.com. Visit our office at Reunion House, Office No. 22, Blantyre.';
+		} else if (lowerMessage.includes('price') || lowerMessage.includes('cost')) {
+			return 'Our pricing varies based on the service and property type. Please fill out the contact form or call us for a personalized quote.';
+		} else if (lowerMessage.includes('service')) {
+			return 'We offer: Property Valuations, Plant & Machinery Valuations, Asset Tagging & Tracking, and Property Management services.';
+		} else if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+			return 'Hello! Welcome to TCP Malawi. How can I assist you with your property needs today?';
+		} else {
+			return 'Thank you for your message! For specific inquiries, please use the contact form or call us directly. We\'ll respond promptly to your needs.';
+		}
+	}
+
+	function handleKeyPress(event) {
+		if (event.key === 'Enter' && !event.shiftKey) {
+			event.preventDefault();
+			sendMessage();
+		}
+	}
 </script>
 
 <svelte:head>
@@ -125,109 +463,223 @@
 		<section id="listings" class="featured">
 			<div class="container">
 				<div class="featured-header">
-					<h2>Featured Properties</h2>
+					<h2>Find Your Perfect Property</h2>
+					<p>Search from our extensive collection of premium properties across Malawi</p>
 				</div>
-			<div class="properties-grid">
-				<div class="property-card card animated-card">
-					<div class="property-badge featured-badge">⭐ Featured</div>
-					<div class="property-image">
-						<img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop" alt="Property" />
-						<div class="property-overlay">
-							<div class="property-stats">
-								<span class="stat">🏠 3 Beds</span>
-								<span class="stat">🚿 2 Baths</span>
-								<span class="stat">📐 1,200 sqft</span>
-							</div>
+				
+				<!-- Search and Filter Section -->
+				<div class="search-filter-section">
+					<div class="search-bar-container">
+						<div class="search-bar">
+							<span class="search-icon">🔍</span>
+							<input 
+								type="text" 
+								placeholder="Search by location, property name, or keywords..." 
+								bind:value={searchQuery}
+								on:input={applyFilters}
+							/>
+							<button class="search-btn" on:click={applyFilters}>Search</button>
 						</div>
 					</div>
-					<div class="property-content">
-						<div class="property-location">📍 Lilongwe City Center</div>
-						<div class="property-price">MWK 45,000,000</div>
-						<div class="property-actions">
-							<button class="view-btn">View Details</button>
-							<button class="save-btn">❤️</button>
+					
+					<div class="filters-container">
+						<div class="filter-group">
+							<label>Looking to</label>
+							<select bind:value={selectedListingType} on:change={applyFilters}>
+								{#each listingTypes as type}
+									<option value={type}>{type}</option>
+								{/each}
+							</select>
+						</div>
+						
+						<div class="filter-group">
+							<label>City</label>
+							<select bind:value={selectedCity} on:change={applyFilters}>
+								{#each allCities as city}
+									<option value={city}>{city}</option>
+								{/each}
+							</select>
+						</div>
+						
+						<div class="filter-group">
+							<label>District</label>
+							<select bind:value={selectedDistrict} on:change={applyFilters}>
+								{#each allDistricts as district}
+									<option value={district}>{district}</option>
+								{/each}
+							</select>
+						</div>
+						
+						<div class="filter-group">
+							<label>Property Type</label>
+							<select bind:value={selectedPropertyType} on:change={applyFilters}>
+								{#each propertyTypes as type}
+									<option value={type}>{type}</option>
+								{/each}
+							</select>
+						</div>
+						
+						<div class="filter-group">
+							<label>Price Range</label>
+							<select bind:value={priceRange} on:change={applyFilters}>
+								{#each priceRanges as range}
+									<option value={range}>{range}</option>
+								{/each}
+							</select>
+						</div>
+						
+						<div class="filter-group">
+							<label>&nbsp;</label>
+							<button class="reset-btn" on:click={resetFilters}>Reset Filters</button>
 						</div>
 					</div>
 				</div>
 				
-				<div class="property-card card animated-card">
-					<div class="property-badge hot-badge">🔥 Hot Deal</div>
-					<div class="property-image">
-						<img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&h=300&fit=crop" alt="Property" />
-						<div class="property-overlay">
-							<div class="property-stats">
-								<span class="stat">🏠 4 Beds</span>
-								<span class="stat">🚿 3 Baths</span>
-								<span class="stat">📐 2,500 sqft</span>
-							</div>
-						</div>
-					</div>
-					<div class="property-content">
-						<div class="property-location">📍 Blantyre Commercial</div>
-						<div class="property-price">MWK 32,500,000</div>
-						<div class="property-actions">
-							<button class="view-btn">View Details</button>
-							<button class="save-btn">❤️</button>
-						</div>
+				<!-- Results Summary -->
+				<div class="results-summary">
+					<span class="results-count">{filteredProperties.length} properties found</span>
+					<div class="sort-options">
+						<span>Sort by:</span>
+						<select>
+							<option>Featured</option>
+							<option>Price: Low to High</option>
+							<option>Price: High to Low</option>
+							<option>Newest First</option>
+						</select>
 					</div>
 				</div>
 				
-				<div class="property-card card animated-card">
-					<div class="property-badge new-badge">✨ New</div>
-					<div class="property-image">
-						<img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=400&h=300&fit=crop" alt="Property" />
-						<div class="property-overlay">
-							<div class="property-stats">
-								<span class="stat">🏠 5 Beds</span>
-								<span class="stat">🚿 4 Baths</span>
-								<span class="stat">📐 3,200 sqft</span>
+				<!-- Properties Grid -->
+				<div class="properties-grid">
+					{#each filteredProperties as property (property.id)}
+						<div class="property-card card animated-card">
+							<div class="property-badge" class:featured-badge={property.badge === 'Featured'} class:hot-badge={property.badge === 'Hot Deal'} class:new-badge={property.badge === 'New'}>
+								{#if property.badge === 'Featured'}⭐ Featured
+								{:else if property.badge === 'Hot Deal'}🔥 Hot Deal
+								{:else if property.badge === 'New'}✨ New
+								{/if}
+							</div>
+							<div class="property-image">
+								<img src={property.image} alt={property.title} />
+								<div class="property-overlay">
+									<div class="property-stats">
+										{#if property.beds > 0}<span class="stat">🏠 {property.beds} Beds</span>{/if}
+										{#if property.baths > 0}<span class="stat">🚿 {property.baths} Baths</span>{/if}
+										<span class="stat">📐 {property.sqft.toLocaleString()} sqft</span>
+									</div>
+								</div>
+							</div>
+							<div class="property-content">
+								<div class="property-title">{property.title}</div>
+								<div class="property-location">📍 {property.location}</div>
+								<div class="property-price">
+									MWK {property.price.toLocaleString()}
+									<span class="listing-type-badge">{property.listingType}</span>
+								</div>
+								<div class="property-type">{property.type}</div>
+								<div class="property-actions">
+									<a href="/property/{property.id}" class="view-btn">View Details</a>
+									<button class="save-btn">❤️</button>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="property-content">
-						<div class="property-location">📍 Lake Malawi Shore</div>
-						<div class="property-price">MWK 28,750,000</div>
-						<div class="property-actions">
-							<button class="view-btn">View Details</button>
-							<button class="save-btn">❤️</button>
-						</div>
-					</div>
+					{/each}
 				</div>
+				
+				<!-- No Results Message -->
+				{#if filteredProperties.length === 0}
+					<div class="no-results">
+						<div class="no-results-icon">🔍</div>
+						<h3>No properties found</h3>
+						<p>Try adjusting your search criteria or filters to find more properties.</p>
+						<button class="reset-btn-large" on:click={resetFilters}>Reset All Filters</button>
+					</div>
+				{/if}
 			</div>
-		</div>
-	</section>
+		</section>
 	</ScrollAnimation>
 
-	<!-- Animated Stats Section -->
-	<ScrollAnimation animationType="fade-up" delay={300}>
-		<section class="stats-section">
+	<!-- Contact Form Section -->
+	<ScrollAnimation animationType="fade-up" delay={250}>
+		<section class="contact-form-section">
 			<div class="container">
-				<div class="stats-grid">
-					<div class="stat-card">
-						<div class="stat-number" data-target="500">0</div>
-						<div class="stat-label">Properties Valued</div>
-						<div class="stat-icon">🏠</div>
+				<div class="contact-form-wrapper">
+					<div class="contact-form-content">
+						<div class="contact-form-header">
+							<h2>Get in Touch</h2>
+							<p>Ready to find your perfect property? Let's start the conversation.</p>
+						</div>
+						<form class="contact-form" on:submit|preventDefault={handleSubmit}>
+							<div class="form-row">
+								<div class="form-group">
+									<label for="name">Full Name *</label>
+									<input type="text" id="name" name="name" required placeholder="John Doe" bind:value={formData.name} />
+									<span class="form-error" class:hidden={!formErrors.name}>Please enter your name</span>
+								</div>
+								<div class="form-group">
+									<label for="email">Email Address *</label>
+									<input type="email" id="email" name="email" required placeholder="john@example.com" bind:value={formData.email} />
+									<span class="form-error" class:hidden={!formErrors.email}>Please enter a valid email</span>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group">
+									<label for="phone">Phone Number</label>
+									<input type="tel" id="phone" name="phone" placeholder="+265 XXX XXX XXX" bind:value={formData.phone} />
+								</div>
+								<div class="form-group">
+									<label for="service">Service Interested In</label>
+									<select id="service" name="service" bind:value={formData.service}>
+										<option value="">Select a service</option>
+										<option value="property-valuations">Property Valuations</option>
+										<option value="plant-machinery">Plant & Machinery Valuations</option>
+										<option value="asset-tagging">Asset Tagging & Tracking</option>
+										<option value="property-management">Property Management</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="message">Message *</label>
+								<textarea id="message" name="message" required placeholder="Tell us about your property needs..." rows="4" bind:value={formData.message}></textarea>
+								<span class="form-error" class:hidden={!formErrors.message}>Please enter your message</span>
+							</div>
+							<div class="form-actions">
+								<button type="submit" class="submit-btn" class:loading={isSubmitting}>
+									{isSubmitting ? 'Sending...' : 'Send Message'}
+								</button>
+								<span class="form-success" class:hidden={!showSuccess}>✓ Message sent successfully!</span>
+							</div>
+						</form>
 					</div>
-					<div class="stat-card">
-						<div class="stat-number" data-target="50">0</div>
-						<div class="stat-label">Years Experience</div>
-						<div class="stat-icon">⭐</div>
-					</div>
-					<div class="stat-card">
-						<div class="stat-number" data-target="1000">0</div>
-						<div class="stat-label">Happy Clients</div>
-						<div class="stat-icon">😊</div>
-					</div>
-					<div class="stat-card">
-						<div class="stat-number" data-target="25">0</div>
-						<div class="stat-label">Expert Team</div>
-						<div class="stat-icon">👥</div>
+					<div class="contact-form-info">
+						<div class="info-card">
+							<div class="info-icon">📍</div>
+							<div class="info-content">
+								<h3>Visit Our Office</h3>
+								<p>Reunion House, Office No. 22<br>P.O. Box 1883, Blantyre, Malawi</p>
+							</div>
+						</div>
+						<div class="info-card">
+							<div class="info-icon">📞</div>
+							<div class="info-content">
+								<h3>Call Us</h3>
+								<p>+265 888 141 612<br>+265 995 700 234</p>
+							</div>
+						</div>
+						<div class="info-card">
+							<div class="info-icon">✉️</div>
+							<div class="info-content">
+								<h3>Email Us</h3>
+								<p>tpcmalawi@gmail.com</p>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</section>
 	</ScrollAnimation>
 
+	
 	<!-- Trust Line / Value Statement -->
 	<ScrollAnimation animationType="fade-up" delay={400}>
 		<section class="trust">
@@ -255,6 +707,48 @@
 
 	
 	</main>
+
+<!-- Chatbot -->
+<div class="chatbot-container" class:open={chatOpen}>
+	<div class="chatbot-toggle" on:click={toggleChat}>
+		<span class="chat-icon">💬</span>
+		<span class="chat-close">✕</span>
+	</div>
+	
+	<div class="chatbot-window">
+		<div class="chatbot-header">
+			<div class="chatbot-title">
+				<span class="chatbot-avatar">🤖</span>
+				<div>
+					<h4>TCP Assistant</h4>
+					<span class="online-indicator">● Online</span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="chatbot-messages">
+			{#each chatMessages as message (message)}
+				<div class="message" class:user={message.type === 'user'} class:bot={message.type === 'bot'}>
+					<div class="message-content">
+						{message.text}
+					</div>
+				</div>
+			{/each}
+		</div>
+		
+		<div class="chatbot-input">
+			<input 
+				type="text" 
+				placeholder="Ask about our services..." 
+				bind:value={currentMessage}
+				on:keypress={handleKeyPress}
+			/>
+			<button on:click={sendMessage} class:disabled={!currentMessage.trim()}>
+				→
+			</button>
+		</div>
+	</div>
+</div>
 
 <style>
 
@@ -993,13 +1487,219 @@
 
 	.featured-header {
 		text-align: center;
-		margin-bottom: var(--spacing-12);
+		margin-bottom: var(--spacing-8);
 	}
 
 	.featured-header h2 {
 		font-size: var(--text-3xl);
 		font-weight: 600;
 		color: var(--foreground);
+		margin-bottom: var(--spacing-3);
+	}
+
+	.featured-header p {
+		font-size: var(--text-lg);
+		color: var(--muted-foreground);
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
+	/* Search and Filter Section */
+	.search-filter-section {
+		background: white;
+		border-radius: 16px;
+		padding: var(--spacing-8);
+		margin-bottom: var(--spacing-12);
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+		border: 1px solid rgba(147, 199, 80, 0.1);
+	}
+
+	.search-bar-container {
+		margin-bottom: var(--spacing-6);
+	}
+
+	.search-bar {
+		display: flex;
+		align-items: center;
+		background: #f8fafc;
+		border: 2px solid #e2e8f0;
+		border-radius: 12px;
+		padding: var(--spacing-2);
+		transition: all 0.3s ease;
+		position: relative;
+	}
+
+	.search-bar:focus-within {
+		border-color: var(--tcp-primary);
+		box-shadow: 0 0 0 4px rgba(147, 199, 80, 0.1);
+		background: white;
+	}
+
+	.search-icon {
+		color: var(--muted-foreground);
+		font-size: 1.2rem;
+		margin: 0 var(--spacing-3);
+	}
+
+	.search-bar input {
+		flex: 1;
+		border: none;
+		background: transparent;
+		outline: none;
+		font-size: var(--text-lg);
+		padding: var(--spacing-3) 0;
+		color: var(--foreground);
+	}
+
+	.search-bar input::placeholder {
+		color: var(--muted-foreground);
+	}
+
+	.view-btn {
+		background: linear-gradient(135deg, var(--tcp-primary), var(--tcp-primary-dark));
+		color: white;
+		border: none;
+		padding: var(--spacing-2) var(--spacing-4);
+		border-radius: 6px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		font-size: var(--text-sm);
+		text-decoration: none;
+		display: inline-block;
+		text-align: center;
+	}
+
+	.search-btn:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 25px rgba(147, 199, 80, 0.3);
+	}
+
+	.filters-container {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+		gap: var(--spacing-4);
+	}
+
+	.filter-group {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-2);
+	}
+
+	.filter-group label {
+		font-weight: 600;
+		color: var(--foreground);
+		font-size: var(--text-sm);
+	}
+
+	.filter-group select,
+	.reset-btn {
+		padding: var(--spacing-3) var(--spacing-4);
+		border: 2px solid #e2e8f0;
+		border-radius: 8px;
+		font-size: var(--text-base);
+		background: white;
+		color: var(--foreground);
+		cursor: pointer;
+		transition: all 0.3s ease;
+	}
+
+	.filter-group select:focus,
+	.reset-btn:focus {
+		outline: none;
+		border-color: var(--tcp-primary);
+		box-shadow: 0 0 0 3px rgba(147, 199, 80, 0.1);
+	}
+
+	.reset-btn {
+		background: #f8fafc;
+		border-color: #e2e8f0;
+		color: var(--muted-foreground);
+	}
+
+	.reset-btn:hover {
+		background: var(--tcp-primary);
+		color: white;
+		border-color: var(--tcp-primary);
+	}
+
+	/* Results Summary */
+	.results-summary {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: var(--spacing-8);
+		padding: var(--spacing-4) 0;
+		border-bottom: 1px solid #e2e8f0;
+	}
+
+	.results-count {
+		font-weight: 600;
+		color: var(--foreground);
+	}
+
+	.sort-options {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-2);
+		color: var(--muted-foreground);
+		font-size: var(--text-sm);
+	}
+
+	.sort-options select {
+		padding: var(--spacing-2) var(--spacing-3);
+		border: 1px solid #e2e8f0;
+		border-radius: 6px;
+		font-size: var(--text-sm);
+		background: white;
+		color: var(--foreground);
+	}
+
+	/* No Results */
+	.no-results {
+		text-align: center;
+		padding: var(--spacing-16) var(--spacing-8);
+		background: white;
+		border-radius: 16px;
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+	}
+
+	.no-results-icon {
+		font-size: 4rem;
+		margin-bottom: var(--spacing-4);
+		opacity: 0.5;
+	}
+
+	.no-results h3 {
+		font-size: var(--text-2xl);
+		font-weight: 600;
+		color: var(--foreground);
+		margin-bottom: var(--spacing-3);
+	}
+
+	.no-results p {
+		color: var(--muted-foreground);
+		margin-bottom: var(--spacing-6);
+		max-width: 400px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.reset-btn-large {
+		background: linear-gradient(135deg, var(--tcp-primary), var(--tcp-primary-dark));
+		color: white;
+		border: none;
+		padding: var(--spacing-4) var(--spacing-8);
+		border-radius: 8px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s ease;
+	}
+
+	.reset-btn-large:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 25px rgba(147, 199, 80, 0.3);
 	}
 
 	.properties-grid {
@@ -1043,6 +1743,14 @@
 		padding: var(--spacing-4);
 	}
 
+	.property-title {
+		font-size: var(--text-lg);
+		font-weight: 600;
+		color: var(--foreground);
+		margin-bottom: var(--spacing-2);
+		line-height: 1.3;
+	}
+
 	.property-location {
 		font-size: var(--text-sm);
 		color: var(--muted-foreground);
@@ -1053,6 +1761,31 @@
 		font-size: var(--text-xl);
 		font-weight: 600;
 		color: var(--tcp-primary);
+		margin-bottom: var(--spacing-2);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--spacing-2);
+	}
+
+	.listing-type-badge {
+		font-size: var(--text-xs);
+		font-weight: 600;
+		padding: var(--spacing-1) var(--spacing-2);
+		border-radius: 12px;
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+		white-space: nowrap;
+	}
+
+	.property-type {
+		font-size: var(--text-sm);
+		color: var(--muted-foreground);
+		background: #f8fafc;
+		padding: var(--spacing-1) var(--spacing-2);
+		border-radius: 4px;
+		display: inline-block;
+		margin-bottom: var(--spacing-3);
 	}
 
 	/* Animated Property Cards */
@@ -1374,151 +2107,375 @@
 		}
 	}
 
-	/* Animated Stats Section */
-	.stats-section {
+	
+	/* Contact Form Section */
+	.contact-form-section {
 		padding: var(--spacing-20) 0;
-		background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
-		color: var(--foreground);
-		position: relative;
-		overflow: hidden;
+		background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 	}
 
-	.stats-section::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background: radial-gradient(circle at 20% 80%, rgba(147, 199, 80, 0.1) 0%, transparent 50%),
-							radial-gradient(circle at 80% 20%, rgba(147, 199, 80, 0.1) 0%, transparent 50%),
-							radial-gradient(circle at 40% 40%, rgba(147, 199, 80, 0.05) 0%, transparent 50%);
-		animation: drift 30s ease-in-out infinite;
-	}
-
-	@keyframes drift {
-		0%, 100% {
-			transform: translate(0, 0) scale(1);
-		}
-		33% {
-			transform: translate(20px, -20px) scale(1.1);
-		}
-		66% {
-			transform: translate(-20px, 20px) scale(0.9);
-		}
-	}
-
-	.stats-grid {
+	.contact-form-wrapper {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-		gap: var(--spacing-8);
-		position: relative;
-		z-index: 1;
-		max-width: 1000px;
+		grid-template-columns: 1fr 1fr;
+		gap: var(--spacing-12);
+		max-width: 1200px;
 		margin: 0 auto;
 	}
 
-	.stat-card {
-		text-align: center;
-		padding: var(--spacing-8) var(--spacing-6);
+	.contact-form-content {
 		background: white;
+		padding: var(--spacing-8);
 		border-radius: 16px;
-		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-		border: 1px solid rgba(147, 199, 80, 0.2);
-		transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+		border: 1px solid rgba(147, 199, 80, 0.1);
+	}
+
+	.contact-form-header {
+		text-align: center;
+		margin-bottom: var(--spacing-8);
+	}
+
+	.contact-form-header h2 {
+		font-size: var(--text-3xl);
+		font-weight: 700;
+		color: var(--foreground);
+		margin-bottom: var(--spacing-4);
+	}
+
+	.contact-form-header p {
+		font-size: var(--text-lg);
+		color: var(--muted-foreground);
+		max-width: 500px;
+		margin: 0 auto;
+	}
+
+	.contact-form {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-6);
+	}
+
+	.form-row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: var(--spacing-6);
+	}
+
+	.form-group {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-2);
+	}
+
+	.form-group label {
+		font-weight: 600;
+		color: var(--foreground);
+		font-size: var(--text-sm);
+	}
+
+	.form-group input,
+	.form-group select,
+	.form-group textarea {
+		padding: var(--spacing-3) var(--spacing-4);
+		border: 2px solid #e2e8f0;
+		border-radius: 8px;
+		font-size: var(--text-base);
+		transition: all 0.3s ease;
+		background: white;
+	}
+
+	.form-group input:focus,
+	.form-group select:focus,
+	.form-group textarea:focus {
+		outline: none;
+		border-color: var(--tcp-primary);
+		box-shadow: 0 0 0 3px rgba(147, 199, 80, 0.1);
+	}
+
+	.form-group input.error,
+	.form-group select.error,
+	.form-group textarea.error {
+		border-color: #ef4444;
+	}
+
+	.form-error {
+		color: #ef4444;
+		font-size: var(--text-sm);
+		margin-top: var(--spacing-1);
+	}
+
+	.form-actions {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-4);
+	}
+
+	.submit-btn {
+		background: linear-gradient(135deg, var(--tcp-primary), var(--tcp-primary-dark));
+		color: white;
+		border: none;
+		padding: var(--spacing-4) var(--spacing-8);
+		border-radius: 8px;
+		font-weight: 600;
+		font-size: var(--text-base);
+		cursor: pointer;
+		transition: all 0.3s ease;
 		position: relative;
 		overflow: hidden;
 	}
 
-	.stat-card::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 4px;
-		background: linear-gradient(90deg, var(--tcp-primary), var(--tcp-primary-dark));
-		transform: scaleX(0);
-		transition: transform 0.4s ease;
+	.submit-btn:hover:not(:disabled) {
+		transform: translateY(-2px);
+		box-shadow: 0 10px 25px rgba(147, 199, 80, 0.3);
 	}
 
-	.stat-card:hover::before {
-		transform: scaleX(1);
+	.submit-btn:disabled {
+		opacity: 0.7;
+		cursor: not-allowed;
 	}
 
-	.stat-card::after {
-		content: '';
-		position: absolute;
-		top: -50%;
-		left: -50%;
-		width: 200%;
-		height: 200%;
-		background: radial-gradient(circle, rgba(147, 199, 80, 0.05) 0%, transparent 70%);
-		opacity: 0;
-		transition: opacity 0.4s ease;
-		pointer-events: none;
+	.submit-btn.loading {
+		background: linear-gradient(135deg, #94a3b8, #64748b);
 	}
 
-	.stat-card:hover::after {
-		opacity: 1;
+	.form-success {
+		color: var(--tcp-primary);
+		font-weight: 600;
+		font-size: var(--text-sm);
 	}
 
-	.stat-card:hover {
-		transform: translateY(-12px) scale(1.02);
-		box-shadow: 0 20px 40px rgba(147, 199, 80, 0.15);
+	.contact-form-info {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-6);
+	}
+
+	.info-card {
+		background: white;
+		padding: var(--spacing-6);
+		border-radius: 12px;
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+		border: 1px solid rgba(147, 199, 80, 0.1);
+		display: flex;
+		align-items: flex-start;
+		gap: var(--spacing-4);
+		transition: all 0.3s ease;
+	}
+
+	.info-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 8px 30px rgba(147, 199, 80, 0.15);
 		border-color: var(--tcp-primary);
 	}
 
-	.stat-number {
-		font-size: 3.5rem;
-		font-weight: 800;
-		margin-bottom: var(--spacing-3);
-		color: var(--tcp-primary);
-		position: relative;
-		z-index: 2;
-		line-height: 1;
-		text-shadow: 0 2px 4px rgba(147, 199, 80, 0.2);
+	.info-icon {
+		font-size: 2rem;
+		flex-shrink: 0;
 	}
 
-	.stat-label {
+	.info-content h3 {
 		font-size: var(--text-lg);
 		font-weight: 600;
-		margin-bottom: var(--spacing-4);
 		color: var(--foreground);
+		margin-bottom: var(--spacing-2);
+	}
+
+	.info-content p {
+		color: var(--muted-foreground);
+		line-height: 1.6;
+	}
+
+	/* Chatbot Styles */
+	.chatbot-container {
+		position: fixed;
+		bottom: 30px;
+		right: 30px;
+		z-index: 1000;
+	}
+
+	.chatbot-toggle {
+		width: 60px;
+		height: 60px;
+		background: linear-gradient(135deg, var(--tcp-primary), var(--tcp-primary-dark));
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		box-shadow: 0 4px 20px rgba(147, 199, 80, 0.4);
+		transition: all 0.3s ease;
 		position: relative;
-		z-index: 2;
-		opacity: 0.8;
 	}
 
-	.stat-icon {
-		font-size: 3rem;
-		margin-bottom: var(--spacing-4);
-		opacity: 0.9;
-		animation: gentle-bounce 3s infinite ease-in-out;
-		position: relative;
-		z-index: 2;
-		filter: drop-shadow(0 4px 8px rgba(147, 199, 80, 0.2));
+	.chatbot-toggle:hover {
+		transform: scale(1.1);
+		box-shadow: 0 6px 30px rgba(147, 199, 80, 0.6);
 	}
 
-	.stat-card:nth-child(2) .stat-icon {
-		animation-delay: 0.75s;
+	.chat-icon {
+		color: white;
+		font-size: 1.5rem;
+		transition: all 0.3s ease;
 	}
 
-	.stat-card:nth-child(3) .stat-icon {
-		animation-delay: 1.5s;
+	.chat-close {
+		color: white;
+		font-size: 1.2rem;
+		position: absolute;
+		opacity: 0;
+		transform: scale(0);
+		transition: all 0.3s ease;
 	}
 
-	.stat-card:nth-child(4) .stat-icon {
-		animation-delay: 2.25s;
+	.chatbot-container.open .chat-icon {
+		opacity: 0;
+		transform: scale(0);
 	}
 
-	@keyframes gentle-bounce {
-		0%, 100% {
-			transform: translateY(0) scale(1);
-		}
-		50% {
-			transform: translateY(-8px) scale(1.05);
-		}
+	.chatbot-container.open .chat-close {
+		opacity: 1;
+		transform: scale(1);
+	}
+
+	.chatbot-window {
+		position: absolute;
+		bottom: 80px;
+		right: 0;
+		width: 350px;
+		height: 500px;
+		background: white;
+		border-radius: 12px;
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+		display: flex;
+		flex-direction: column;
+		opacity: 0;
+		transform: scale(0.8) translateY(20px);
+		visibility: hidden;
+		transition: all 0.3s ease;
+		border: 1px solid rgba(147, 199, 80, 0.2);
+	}
+
+	.chatbot-container.open .chatbot-window {
+		opacity: 1;
+		transform: scale(1) translateY(0);
+		visibility: visible;
+	}
+
+	.chatbot-header {
+		padding: var(--spacing-4);
+		background: linear-gradient(135deg, var(--tcp-primary), var(--tcp-primary-dark));
+		color: white;
+		border-radius: 12px 12px 0 0;
+	}
+
+	.chatbot-title {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-3);
+	}
+
+	.chatbot-avatar {
+		font-size: 1.5rem;
+	}
+
+	.chatbot-title h4 {
+		font-size: var(--text-lg);
+		font-weight: 600;
+		margin: 0;
+	}
+
+	.online-indicator {
+		font-size: var(--text-sm);
+		color: #86efac;
+	}
+
+	.chatbot-messages {
+		flex: 1;
+		padding: var(--spacing-4);
+		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-3);
+	}
+
+	.message {
+		display: flex;
+		max-width: 80%;
+	}
+
+	.message.bot {
+		align-self: flex-start;
+	}
+
+	.message.user {
+		align-self: flex-end;
+	}
+
+	.message-content {
+		padding: var(--spacing-3) var(--spacing-4);
+		border-radius: 12px;
+		font-size: var(--text-sm);
+		line-height: 1.4;
+		word-wrap: break-word;
+	}
+
+	.message.bot .message-content {
+		background: #f1f5f9;
+		color: var(--foreground);
+		border-bottom-left-radius: 4px;
+	}
+
+	.message.user .message-content {
+		background: linear-gradient(135deg, var(--tcp-primary), var(--tcp-primary-dark));
+		color: white;
+		border-bottom-right-radius: 4px;
+	}
+
+	.chatbot-input {
+		padding: var(--spacing-4);
+		border-top: 1px solid #e2e8f0;
+		display: flex;
+		gap: var(--spacing-2);
+	}
+
+	.chatbot-input input {
+		flex: 1;
+		padding: var(--spacing-2) var(--spacing-3);
+		border: 1px solid #e2e8f0;
+		border-radius: 20px;
+		font-size: var(--text-sm);
+		outline: none;
+		transition: all 0.3s ease;
+	}
+
+	.chatbot-input input:focus {
+		border-color: var(--tcp-primary);
+		box-shadow: 0 0 0 3px rgba(147, 199, 80, 0.1);
+	}
+
+	.chatbot-input button {
+		width: 36px;
+		height: 36px;
+		background: linear-gradient(135deg, var(--tcp-primary), var(--tcp-primary-dark));
+		color: white;
+		border: none;
+		border-radius: 50%;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.3s ease;
+		font-weight: bold;
+	}
+
+	.chatbot-input button:hover:not(:disabled) {
+		transform: scale(1.1);
+		box-shadow: 0 4px 15px rgba(147, 199, 80, 0.4);
+	}
+
+	.chatbot-input button:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
 	}
 
 	/* Trust Section */
@@ -1621,38 +2578,96 @@
 			gap: var(--spacing-2);
 		}
 
-		.hero-service-item {
-			padding: var(--spacing-3);
-			height: auto;
-			min-height: 200px;
-		}
-
-		.hero-service-item h4 {
-			font-size: var(--text-sm);
-		}
-
-		.hero-service-item p {
-			font-size: 10px;
-		}
-
-		
-		.properties-grid {
-			grid-template-columns: 1fr;
-			gap: var(--spacing-6);
-		}
-
-		.trust-icons {
+		.hero-buttons {
 			flex-direction: column;
-			gap: var(--spacing-4);
-		}
-
-		.cta-content h2 {
-			font-size: var(--text-3xl);
+			align-items: center;
 		}
 
 		.cta-buttons {
 			flex-direction: column;
 			align-items: center;
+		}
+
+		.properties-grid {
+			grid-template-columns: 1fr;
+			gap: var(--spacing-6);
+		}
+
+		/* Search and Filter Responsive */
+		.search-filter-section {
+			padding: var(--spacing-6);
+		}
+
+		.search-bar {
+			flex-direction: column;
+			align-items: stretch;
+		}
+
+		.search-icon {
+			margin: var(--spacing-2) 0;
+			text-align: center;
+		}
+
+		.search-btn {
+			margin-left: 0;
+			margin-top: var(--spacing-2);
+		}
+
+		.filters-container {
+			grid-template-columns: repeat(2, 1fr);
+			gap: var(--spacing-3);
+		}
+
+		.results-summary {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: var(--spacing-3);
+		}
+
+		/* Contact Form Responsive */
+		.contact-form-wrapper {
+			grid-template-columns: 1fr;
+			gap: var(--spacing-8);
+		}
+
+		.form-row {
+			grid-template-columns: 1fr;
+			gap: var(--spacing-4);
+		}
+
+		.contact-form-content {
+			padding: var(--spacing-6);
+		}
+
+		/* Chatbot Responsive */
+		.chatbot-container {
+			bottom: 20px;
+			right: 20px;
+		}
+
+		.chatbot-toggle {
+			width: 50px;
+			height: 50px;
+		}
+
+		.chatbot-window {
+			width: 300px;
+			height: 450px;
+			right: -10px;
+		}
+
+		.trust {
+			padding: var(--spacing-12) 0;
+		}
+
+		.trust-icons {
+			flex-direction: column;
+			align-items: center;
+			gap: var(--spacing-4);
+		}
+
+		.trust-item {
+			text-align: center;
 		}
 
 		.footer-content {
@@ -1680,6 +2695,11 @@
 
 		.cta-content h2 {
 			font-size: var(--text-2xl);
+		}
+
+		.filters-container {
+			grid-template-columns: 1fr;
+			gap: var(--spacing-3);
 		}
 	}
 </style>

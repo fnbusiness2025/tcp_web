@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
+import routes from './routes/index.js';
+import database from './config/database.js';
 
 dotenv.config();
 
@@ -19,6 +21,9 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
+
+// API Routes
+app.use(`${API_PREFIX}`, routes);
 
 // Health check
 app.get(`${API_PREFIX}/health`, (req, res) => {
@@ -60,9 +65,15 @@ app.get(`${API_PREFIX}/profile`, (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`🚀 TCP Client Backend running on port ${PORT}`);
   console.log(`📡 API available at: http://localhost:${PORT}${API_PREFIX}`);
   console.log(`🔗 Health check: http://localhost:${PORT}${API_PREFIX}/health`);
   console.log(`🌐 CORS enabled for: ${process.env.FRONTEND_URL}`);
+  
+  // Test database connection
+  const dbConnected = await database.testConnection();
+  if (dbConnected) {
+    console.log(`🗄️  Database: ${process.env.DB_NAME} (${process.env.DB_HOST}:${process.env.DB_PORT})`);
+  }
 });

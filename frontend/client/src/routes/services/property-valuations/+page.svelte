@@ -1,26 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import ScrollAnimation from '$lib/ScrollAnimation.svelte';
-
-	let mobileMenuOpen = false;
-
-	function toggleMobileMenu() {
-		mobileMenuOpen = !mobileMenuOpen;
-	}
-
-	function closeMobileMenu() {
-		mobileMenuOpen = false;
-	}
-
-	// Smooth scroll for anchor links
-	function smoothScroll(event, targetId) {
-		event.preventDefault();
-		const element = document.getElementById(targetId);
-		if (element) {
-			element.scrollIntoView({ behavior: 'smooth' });
-		}
-		closeMobileMenu();
-	}
+	import Navigation from '$lib/Navigation.svelte';
 </script>
 
 <svelte:head>
@@ -28,49 +9,16 @@
 	<meta name="description" content="Professional property valuation services in Malawi. Accurate, reliable valuations for loans, insurance, estate duty, tax clearance, and more." />
 </svelte:head>
 
-<!-- Navigation -->
-<nav class="navbar">
-	<div class="container">
-		<div class="nav-content">
-			<div class="nav-logo">
-				<img src="/tcp.jpeg" alt="TPC" style="height: 60px; width: 200px; object-fit: fill;" />
-				<span class="company-name-nav">TPC Malawi</span>
-			</div>
-			
-			<!-- Desktop Navigation -->
-			<ul class="nav-menu desktop-menu">
-				<li><a href="/">Home</a></li>
-				<li><a href="/about">About</a></li>
-				<li><a href="/services" class="active">Services</a></li>
-				<li><a href="/#listings">Properties</a></li>
-				<li><a href="/contact">Contact</a></li>
-				<li><a href="/contact" class="btn btn-primary">Get Started</a></li>
-			</ul>
-
-			<!-- Mobile Menu Toggle -->
-			<div class="hamburger" class:active={mobileMenuOpen} on:click={toggleMobileMenu}>
-				<span></span>
-				<span></span>
-				<span></span>
-			</div>
-		</div>
-
-		<!-- Mobile Menu -->
-		<ul class="nav-menu mobile-menu" class:active={mobileMenuOpen}>
-			<li><a href="/" on:click={closeMobileMenu}>Home</a></li>
-			<li><a href="/about" on:click={closeMobileMenu}>About</a></li>
-			<li><a href="/services" class="active" on:click={closeMobileMenu}>Services</a></li>
-			<li><a href="/#listings" on:click={closeMobileMenu}>Properties</a></li>
-			<li><a href="/contact" on:click={closeMobileMenu}>Contact</a></li>
-			<li><a href="/contact" class="btn btn-primary" on:click={closeMobileMenu}>Get Started</a></li>
-		</ul>
-	</div>
-</nav>
+<Navigation currentPage="services" />
 
 <!-- Main Content -->
 <main>
 	<!-- Hero Section -->
 	<section class="service-hero">
+		<div class="hero-background">
+			<img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1920&h=600&fit=crop&auto=format" alt="Property Valuations" class="hero-image" />
+			<div class="hero-overlay"></div>
+		</div>
 		<div class="container">
 			<div class="hero-content">
 				<div class="service-icon">📊</div>
@@ -378,10 +326,36 @@
 
 	/* Service Hero */
 	.service-hero {
-		background: linear-gradient(135deg, var(--tcp-primary), var(--tcp-primary-dark));
+		position: relative;
 		color: white;
 		padding: var(--spacing-20) 0;
 		text-align: center;
+		overflow: hidden;
+	}
+
+	.hero-background {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: -2;
+	}
+
+	.hero-image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.hero-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: linear-gradient(135deg, rgba(147, 199, 80, 0.6), rgba(15, 23, 42, 0.98));
+		z-index: -1;
 	}
 
 	.hero-content .service-icon {

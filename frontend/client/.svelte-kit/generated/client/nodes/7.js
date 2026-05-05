@@ -1,1 +1,1 @@
-export { default as component } from "../../../../src/routes/services/plant-machinery-valuations/+page.svelte";
+export { default as component } from "../../../../src/routes/services/asset-tagging-tracking/+page.svelte";
