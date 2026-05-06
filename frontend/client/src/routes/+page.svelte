@@ -24,13 +24,6 @@
 	let isSubmitting = false;
 	let showSuccess = false;
 	
-	// Chatbot state
-	let chatOpen = false;
-	let chatMessages = [
-		{ type: 'bot', text: 'Hello! Welcome to TCP Malawi. How can I help you today?' }
-	];
-	let currentMessage = '';
-
 	// Search and filter state
 	let searchQuery = '';
 	let selectedCity = '';
@@ -231,6 +224,26 @@
 	];
 	
 	let filteredProperties = properties;
+	let sliderIndex = 0;
+	let sliderInterval;
+
+	function startSlider() {
+		stopSlider();
+		sliderInterval = setInterval(() => {
+			if (filteredProperties.length > 0) {
+				sliderIndex = (sliderIndex + 1) % filteredProperties.length;
+			}
+		}, 5000);
+	}
+
+	function stopSlider() {
+		if (sliderInterval) clearInterval(sliderInterval);
+	}
+
+	function resetSlider() {
+		sliderIndex = 0;
+		startSlider();
+	}
 
 	// Filter functions
 	function applyFilters() {
@@ -273,6 +286,7 @@
 			
 			return matchesSearch && matchesCity && matchesDistrict && matchesType && matchesListingType && matchesPrice;
 		});
+		resetSlider();
 	}
 
 	function resetFilters() {
@@ -290,6 +304,8 @@
 		setTimeout(() => {
 			heroVisible = true;
 		}, 300);
+		startSlider();
+		return () => stopSlider();
 	});
 
 	// Contact form submission
@@ -340,54 +356,10 @@
 		}, 1500);
 	}
 
-	// Chatbot functions
-	function toggleChat() {
-		chatOpen = !chatOpen;
-	}
-
-	function sendMessage() {
-		if (!currentMessage.trim()) return;
-		
-		// Add user message
-		chatMessages = [...chatMessages, { type: 'user', text: currentMessage }];
-		const userMessage = currentMessage;
-		currentMessage = '';
-		
-		// Simulate bot response
-		setTimeout(() => {
-			const botResponse = getBotResponse(userMessage);
-			chatMessages = [...chatMessages, { type: 'bot', text: botResponse }];
-		}, 1000);
-	}
-
-	function getBotResponse(message) {
-		const lowerMessage = message.toLowerCase();
-		
-		if (lowerMessage.includes('property') || lowerMessage.includes('valuation')) {
-			return 'We offer comprehensive property valuation services. Our expert team provides accurate assessments for residential, commercial, and industrial properties across Malawi.';
-		} else if (lowerMessage.includes('contact') || lowerMessage.includes('phone') || lowerMessage.includes('email')) {
-			return 'You can reach us at +265 888 141 612 or +265 995 700 234. Our email is tpcmalawi@gmail.com. Visit our office at Reunion House, Office No. 22, Blantyre.';
-		} else if (lowerMessage.includes('price') || lowerMessage.includes('cost')) {
-			return 'Our pricing varies based on the service and property type. Please fill out the contact form or call us for a personalized quote.';
-		} else if (lowerMessage.includes('service')) {
-			return 'We offer: Property Valuations, Plant & Machinery Valuations, Asset Tagging & Tracking, and Property Management services.';
-		} else if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
-			return 'Hello! Welcome to TCP Malawi. How can I assist you with your property needs today?';
-		} else {
-			return 'Thank you for your message! For specific inquiries, please use the contact form or call us directly. We\'ll respond promptly to your needs.';
-		}
-	}
-
-	function handleKeyPress(event) {
-		if (event.key === 'Enter' && !event.shiftKey) {
-			event.preventDefault();
-			sendMessage();
-		}
-	}
 </script>
 
 <svelte:head>
-	<title>TCP Malawi - Terrestrial Property Consulting Limited</title>
+	<title>TPC Malawi - Terrestrial Property Consulting Limited</title>
 	<meta name="description" content="TPC Malawi - Find trusted property opportunities in Malawi. Discover land and real estate with confidence, transparency, and clarity." />
 </svelte:head>
 
@@ -415,7 +387,7 @@
 		</div>
 		<div class="container">
 			<div class="hero-content">
-				<!-- TCP Malawi Title -->
+				<!-- TPC Malawi Title -->
 				<h1 class="hero-title-simple fade-in" class:visible={heroVisible} style="animation-delay: 0.2s;">
 					Terrestrial Property Consulting Limited
 				</h1>
@@ -423,30 +395,34 @@
 				<!-- Services in Hero - Single Row -->
 				<div class="hero-services-single-row fade-in" class:visible={heroVisible} style="animation-delay: 0.4s;">
 					<div class="hero-services-grid-single">
-						<div class="hero-service-item">
-							<div class="hero-service-icon">🏷️</div>
-							<h4>Asset Tagging & Tracking</h4>
-							<p>Comprehensive asset tagging and tracking solutions designed to improve inventory accuracy, prevent asset loss</p>
-						</div>
-						<div class="hero-service-item">
+						<a href="/services/property-valuations" class="hero-service-item">
+							<div class="hero-service-icon">📊</div>
+							<h4>Asset/Property Valuations</h4>
+							<p>Accurate and professional valuation services for all types of properties across Malawi.</p>
+							<span class="hero-item-link">Learn more</span>
+						</a>
+						<a href="/services/plant-machinery-valuations" class="hero-service-item">
 							<div class="hero-service-icon">🏭</div>
-							<h4>Plant & Machinery Valuations</h4>
-							<p>Specialized Valuation for Industrial and Commercial Assets with professional and reliable valuation services</p>
-						</div>
-						<div class="hero-service-item">
+							<h4>Plant and Machinery Valuation</h4>
+							<p>Specialized valuation services for industrial plants, machinery, and commercial equipment.</p>
+							<span class="hero-item-link">Learn more</span>
+						</a>
+						<a href="/services/property-management" class="hero-service-item">
 							<div class="hero-service-icon">🏢</div>
 							<h4>Property Management</h4>
-							<p>End-to-end property management services that give you peace of mind, knowing your investment</p>
-						</div>
-						<div class="hero-service-item">
-							<div class="hero-service-icon">📊</div>
-							<h4>Property Valuations</h4>
-							<p>Accurate, Reliable, Professional Valuation Services with comprehensive property valuation services tailored</p>
-						</div>
+							<p>End-to-end management solutions for residential and commercial property investments.</p>
+							<span class="hero-item-link">Learn more</span>
+						</a>
+						<a href="/services/land-lease-consultancy" class="hero-service-item">
+							<div class="hero-service-icon">�</div>
+							<h4>Land Lease Consultancy</h4>
+							<p>Expert advice on land leasing negotiations, agreement and lease management.</p>
+							<span class="hero-item-link">Learn more</span>
+						</a>
 					</div>
 				</div>
 				<div class="hero-services-button-container">
-					<a href="/services" class="hero-services-link">View Services →</a>
+					<a href="/services" class="hero-services-link">View more services →</a>
 				</div>
 			</div>
 		</div>
@@ -549,41 +525,50 @@
 					</div>
 				</div>
 				
-				<!-- Properties Grid -->
-				<div class="properties-grid">
-					{#each filteredProperties as property (property.id)}
-						<div class="property-card card animated-card">
-							<div class="property-badge" class:featured-badge={property.badge === 'Featured'} class:hot-badge={property.badge === 'Hot Deal'} class:new-badge={property.badge === 'New'}>
-								{#if property.badge === 'Featured'}⭐ Featured
-								{:else if property.badge === 'Hot Deal'}🔥 Hot Deal
-								{:else if property.badge === 'New'}✨ New
-								{/if}
-							</div>
-							<div class="property-image">
-								<img src={property.image} alt={property.title} />
-								<div class="property-overlay">
-									<div class="property-stats">
-										{#if property.beds > 0}<span class="stat">🏠 {property.beds} Beds</span>{/if}
-										{#if property.baths > 0}<span class="stat">🚿 {property.baths} Baths</span>{/if}
-										<span class="stat">📐 {property.sqft.toLocaleString()} sqft</span>
+				<!-- Stepped Slider Properties Section -->
+				<div class="properties-slider-container" on:mouseenter={stopSlider} on:mouseleave={startSlider}>
+					<div class="slider-track" style="transform: translateX(calc(-{sliderIndex} * (380px + 32px)))">
+						{#each filteredProperties as property (property.id)}
+							<div class="property-card animated-card">
+								<div class="property-image">
+									<img src={property.image} alt={property.title} />
+									<div class="property-overlay">
+										<div class="property-stats">
+											{#if property.beds > 0}<span class="stat">🏠 {property.beds} Beds</span>{/if}
+											{#if property.baths > 0}<span class="stat">🚿 {property.baths} Baths</span>{/if}
+											<span class="stat">📐 {property.sqft.toLocaleString()} sqft</span>
+										</div>
+									</div>
+								</div>
+								<div class="property-content">
+									<div class="property-title">{property.title}</div>
+									<div class="property-location">📍 {property.location}</div>
+									<div class="property-price">
+										MWK {property.price.toLocaleString()}
+										<span class="listing-type-badge">{property.listingType}</span>
+									</div>
+									<div class="property-type">{property.type}</div>
+									<div class="property-actions">
+										<a href="/property/{property.id}" class="view-btn">View Details</a>
+										<button class="save-btn">❤️</button>
 									</div>
 								</div>
 							</div>
-							<div class="property-content">
-								<div class="property-title">{property.title}</div>
-								<div class="property-location">📍 {property.location}</div>
-								<div class="property-price">
-									MWK {property.price.toLocaleString()}
-									<span class="listing-type-badge">{property.listingType}</span>
-								</div>
-								<div class="property-type">{property.type}</div>
-								<div class="property-actions">
-									<a href="/property/{property.id}" class="view-btn">View Details</a>
-									<button class="save-btn">❤️</button>
-								</div>
-							</div>
+						{/each}
+					</div>
+
+					<!-- Slider Navigation -->
+					{#if filteredProperties.length > 1}
+						<div class="slider-nav">
+							{#each filteredProperties as _, i}
+								<button 
+									class="nav-dot" 
+									class:active={sliderIndex === i}
+									on:click={() => sliderIndex = i}
+								></button>
+							{/each}
 						</div>
-					{/each}
+					{/if}
 				</div>
 				
 				<!-- No Results Message -->
@@ -707,48 +692,6 @@
 
 	
 	</main>
-
-<!-- Chatbot -->
-<div class="chatbot-container" class:open={chatOpen}>
-	<div class="chatbot-toggle" on:click={toggleChat}>
-		<span class="chat-icon">💬</span>
-		<span class="chat-close">✕</span>
-	</div>
-	
-	<div class="chatbot-window">
-		<div class="chatbot-header">
-			<div class="chatbot-title">
-				<span class="chatbot-avatar">🤖</span>
-				<div>
-					<h4>TCP Assistant</h4>
-					<span class="online-indicator">● Online</span>
-				</div>
-			</div>
-		</div>
-		
-		<div class="chatbot-messages">
-			{#each chatMessages as message (message)}
-				<div class="message" class:user={message.type === 'user'} class:bot={message.type === 'bot'}>
-					<div class="message-content">
-						{message.text}
-					</div>
-				</div>
-			{/each}
-		</div>
-		
-		<div class="chatbot-input">
-			<input 
-				type="text" 
-				placeholder="Ask about our services..." 
-				bind:value={currentMessage}
-				on:keypress={handleKeyPress}
-			/>
-			<button on:click={sendMessage} class:disabled={!currentMessage.trim()}>
-				→
-			</button>
-		</div>
-	</div>
-</div>
 
 <style>
 
@@ -1138,6 +1081,42 @@
 		min-height: 220px;
 		display: flex;
 		flex-direction: column;
+		text-decoration: none;
+		color: white;
+	}
+
+	.hero-item-link {
+		font-size: 0.85rem;
+		font-weight: 800;
+		color: white;
+		background: var(--tcp-primary);
+		margin-top: 15px;
+		padding: 10px 24px;
+		border-radius: 99px;
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		box-shadow: 0 4px 15px rgba(147, 199, 80, 0.5);
+		transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		letter-spacing: 0.05em;
+		font-family: 'Inter', system-ui, -apple-system, sans-serif;
+	}
+
+	.hero-service-item:hover .hero-item-link {
+		background: white;
+		color: var(--tcp-primary);
+		transform: scale(1.05);
+		box-shadow: 0 8px 25px rgba(255, 255, 255, 0.4);
+	}
+
+	.hero-item-link::after {
+		content: '➤';
+		font-size: 0.7rem;
+		transition: transform 0.3s ease;
+	}
+
+	.hero-service-item:hover .hero-item-link::after {
+		transform: translateX(4px);
 	}
 
 	.hero-service-item::before {
@@ -1201,13 +1180,19 @@
 	}
 
 	.hero-service-item h4 {
-		font-size: var(--text-base);
-		font-weight: 700;
+		font-size: 1.1rem;
+		font-weight: 800;
 		margin-bottom: var(--spacing-2);
 		color: white;
 		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 		transition: color var(--transition-normal) ease;
 		line-height: 1.2;
+		height: 2.4em;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		font-family: 'Inter', system-ui, -apple-system, sans-serif;
 	}
 
 	.hero-service-item:hover h4 {
@@ -1217,10 +1202,11 @@
 	.hero-service-item p {
 		font-size: var(--text-xs);
 		color: rgba(255, 255, 255, 0.8);
-		line-height: 1.3;
+		line-height: 1.4;
 		text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 		transition: all var(--transition-normal) ease;
 		flex-grow: 1;
+		font-family: 'Inter', system-ui, -apple-system, sans-serif;
 	}
 
 	.hero-services-button-container {
@@ -1570,9 +1556,24 @@
 		text-align: center;
 	}
 
+	.search-btn {
+		background: linear-gradient(135deg, var(--tcp-primary), var(--tcp-primary-dark));
+		color: white;
+		border: none;
+		padding: 12px 32px;
+		border-radius: 8px;
+		font-weight: 700;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		font-size: 1rem;
+		margin-left: 12px;
+		box-shadow: 0 4px 15px rgba(147, 199, 80, 0.3);
+	}
+
 	.search-btn:hover {
 		transform: translateY(-2px);
-		box-shadow: 0 8px 25px rgba(147, 199, 80, 0.3);
+		box-shadow: 0 8px 25px rgba(147, 199, 80, 0.4);
+		filter: brightness(1.1);
 	}
 
 	.filters-container {
@@ -1710,82 +1711,133 @@
 		margin: 0 auto;
 	}
 
-	.property-card {
-		transition: all var(--transition-fast) ease;
+	/* Stepped Slider Section */
+	.properties-slider-container {
+		width: 100%;
+		max-width: 1200px;
+		margin: 0 auto;
+		overflow: hidden;
+		padding: 40px 0;
+		position: relative;
+	}
+
+	.slider-track {
+		display: flex;
+		gap: 32px;
+		transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+		pointer-events: auto;
+	}
+
+	.slider-nav {
+		display: flex;
+		justify-content: center;
+		gap: 12px;
+		margin-top: 40px;
+	}
+
+	.nav-dot {
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background: #e2e8f0;
+		border: none;
 		cursor: pointer;
-		border: 1px solid transparent;
+		transition: all 0.3s ease;
+	}
+
+	.nav-dot.active {
+		background: var(--tcp-primary);
+		transform: scale(1.3);
+		box-shadow: 0 0 10px rgba(147, 199, 80, 0.5);
+	}
+
+	.property-card {
+		width: 380px;
+		flex-shrink: 0;
+		background: white;
+		border-radius: 24px;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+		border: 1px solid rgba(147, 199, 80, 0.1);
+		transition: all 0.4s ease;
+		overflow: hidden;
 	}
 
 	.property-card:hover {
-		transform: translateY(-8px);
-		box-shadow: var(--shadow-xl);
+		transform: translateY(-12px) scale(1.02);
+		box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
 		border-color: var(--tcp-primary);
+		background: white;
 	}
 
 	.property-image {
 		width: 100%;
-		height: 200px;
+		height: 240px;
 		overflow: hidden;
+		position: relative;
 	}
 
 	.property-image img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		transition: transform var(--transition-slow) ease;
+		transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
 	.property-card:hover .property-image img {
-		transform: scale(1.05);
+		transform: scale(1.15) rotate(2deg);
 	}
 
 	.property-content {
-		padding: var(--spacing-4);
+		padding: 24px;
 	}
 
 	.property-title {
-		font-size: var(--text-lg);
-		font-weight: 600;
-		color: var(--foreground);
-		margin-bottom: var(--spacing-2);
+		font-size: 1.25rem;
+		font-weight: 700;
+		color: #1a202c;
+		margin-bottom: 8px;
 		line-height: 1.3;
 	}
 
 	.property-location {
-		font-size: var(--text-sm);
-		color: var(--muted-foreground);
-		margin-bottom: var(--spacing-2);
+		font-size: 0.9rem;
+		color: #718096;
+		margin-bottom: 12px;
+		display: flex;
+		align-items: center;
+		gap: 4px;
 	}
 
 	.property-price {
-		font-size: var(--text-xl);
-		font-weight: 600;
+		font-size: 1.5rem;
+		font-weight: 800;
 		color: var(--tcp-primary);
-		margin-bottom: var(--spacing-2);
+		margin-bottom: 16px;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: var(--spacing-2);
 	}
 
 	.listing-type-badge {
-		font-size: var(--text-xs);
-		font-weight: 600;
-		padding: var(--spacing-1) var(--spacing-2);
-		border-radius: 12px;
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		font-size: 0.75rem;
+		font-weight: 700;
+		padding: 4px 12px;
+		border-radius: 99px;
+		background: linear-gradient(135deg, #93c750 0%, #7fb54c 100%);
 		color: white;
-		white-space: nowrap;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
 	}
 
 	.property-type {
-		font-size: var(--text-sm);
-		color: var(--muted-foreground);
-		background: #f8fafc;
-		padding: var(--spacing-1) var(--spacing-2);
-		border-radius: 4px;
+		font-size: 0.85rem;
+		color: #4a5568;
+		background: #edf2f7;
+		padding: 6px 12px;
+		border-radius: 8px;
 		display: inline-block;
-		margin-bottom: var(--spacing-3);
+		font-weight: 600;
+		margin-bottom: 16px;
 	}
 
 	/* Animated Property Cards */
@@ -2283,199 +2335,6 @@
 	.info-content p {
 		color: var(--muted-foreground);
 		line-height: 1.6;
-	}
-
-	/* Chatbot Styles */
-	.chatbot-container {
-		position: fixed;
-		bottom: 30px;
-		right: 30px;
-		z-index: 1000;
-	}
-
-	.chatbot-toggle {
-		width: 60px;
-		height: 60px;
-		background: linear-gradient(135deg, var(--tcp-primary), var(--tcp-primary-dark));
-		border-radius: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		cursor: pointer;
-		box-shadow: 0 4px 20px rgba(147, 199, 80, 0.4);
-		transition: all 0.3s ease;
-		position: relative;
-	}
-
-	.chatbot-toggle:hover {
-		transform: scale(1.1);
-		box-shadow: 0 6px 30px rgba(147, 199, 80, 0.6);
-	}
-
-	.chat-icon {
-		color: white;
-		font-size: 1.5rem;
-		transition: all 0.3s ease;
-	}
-
-	.chat-close {
-		color: white;
-		font-size: 1.2rem;
-		position: absolute;
-		opacity: 0;
-		transform: scale(0);
-		transition: all 0.3s ease;
-	}
-
-	.chatbot-container.open .chat-icon {
-		opacity: 0;
-		transform: scale(0);
-	}
-
-	.chatbot-container.open .chat-close {
-		opacity: 1;
-		transform: scale(1);
-	}
-
-	.chatbot-window {
-		position: absolute;
-		bottom: 80px;
-		right: 0;
-		width: 350px;
-		height: 500px;
-		background: white;
-		border-radius: 12px;
-		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-		display: flex;
-		flex-direction: column;
-		opacity: 0;
-		transform: scale(0.8) translateY(20px);
-		visibility: hidden;
-		transition: all 0.3s ease;
-		border: 1px solid rgba(147, 199, 80, 0.2);
-	}
-
-	.chatbot-container.open .chatbot-window {
-		opacity: 1;
-		transform: scale(1) translateY(0);
-		visibility: visible;
-	}
-
-	.chatbot-header {
-		padding: var(--spacing-4);
-		background: linear-gradient(135deg, var(--tcp-primary), var(--tcp-primary-dark));
-		color: white;
-		border-radius: 12px 12px 0 0;
-	}
-
-	.chatbot-title {
-		display: flex;
-		align-items: center;
-		gap: var(--spacing-3);
-	}
-
-	.chatbot-avatar {
-		font-size: 1.5rem;
-	}
-
-	.chatbot-title h4 {
-		font-size: var(--text-lg);
-		font-weight: 600;
-		margin: 0;
-	}
-
-	.online-indicator {
-		font-size: var(--text-sm);
-		color: #86efac;
-	}
-
-	.chatbot-messages {
-		flex: 1;
-		padding: var(--spacing-4);
-		overflow-y: auto;
-		display: flex;
-		flex-direction: column;
-		gap: var(--spacing-3);
-	}
-
-	.message {
-		display: flex;
-		max-width: 80%;
-	}
-
-	.message.bot {
-		align-self: flex-start;
-	}
-
-	.message.user {
-		align-self: flex-end;
-	}
-
-	.message-content {
-		padding: var(--spacing-3) var(--spacing-4);
-		border-radius: 12px;
-		font-size: var(--text-sm);
-		line-height: 1.4;
-		word-wrap: break-word;
-	}
-
-	.message.bot .message-content {
-		background: #f1f5f9;
-		color: var(--foreground);
-		border-bottom-left-radius: 4px;
-	}
-
-	.message.user .message-content {
-		background: linear-gradient(135deg, var(--tcp-primary), var(--tcp-primary-dark));
-		color: white;
-		border-bottom-right-radius: 4px;
-	}
-
-	.chatbot-input {
-		padding: var(--spacing-4);
-		border-top: 1px solid #e2e8f0;
-		display: flex;
-		gap: var(--spacing-2);
-	}
-
-	.chatbot-input input {
-		flex: 1;
-		padding: var(--spacing-2) var(--spacing-3);
-		border: 1px solid #e2e8f0;
-		border-radius: 20px;
-		font-size: var(--text-sm);
-		outline: none;
-		transition: all 0.3s ease;
-	}
-
-	.chatbot-input input:focus {
-		border-color: var(--tcp-primary);
-		box-shadow: 0 0 0 3px rgba(147, 199, 80, 0.1);
-	}
-
-	.chatbot-input button {
-		width: 36px;
-		height: 36px;
-		background: linear-gradient(135deg, var(--tcp-primary), var(--tcp-primary-dark));
-		color: white;
-		border: none;
-		border-radius: 50%;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		transition: all 0.3s ease;
-		font-weight: bold;
-	}
-
-	.chatbot-input button:hover:not(:disabled) {
-		transform: scale(1.1);
-		box-shadow: 0 4px 15px rgba(147, 199, 80, 0.4);
-	}
-
-	.chatbot-input button:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
 	}
 
 	/* Trust Section */

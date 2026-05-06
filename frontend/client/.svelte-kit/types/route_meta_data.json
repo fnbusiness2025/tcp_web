@@ -2,11 +2,18 @@
 	"/": [],
 	"/about": [],
 	"/contact": [],
+	"/dashboard": [],
 	"/property/[id]": [],
 	"/services": [],
 	"/services/asset-tagging-tracking": [],
+	"/services/building-plans-layout-planning": [],
+	"/services/land-lease-consultancy": [],
+	"/services/land-surveying": [],
+	"/services/market-research": [],
 	"/services/plant-machinery-valuations": [],
 	"/services/property-management": [],
+	"/services/property-sales": [],
 	"/services/property-valuations": [],
+	"/services/telecommunications-site-acquisition": [],
 	"/signin": []
 }

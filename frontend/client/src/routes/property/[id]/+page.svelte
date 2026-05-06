@@ -155,7 +155,7 @@
 </script>
 
 <svelte:head>
-	<title>{property.title} - TCP Malawi</title>
+	<title>{property.title} - TPC Malawi</title>
 	<meta name="description" content="{property.description}" />
 </svelte:head>
 
@@ -309,7 +309,7 @@
 						<div class="info-grid">
 							<div class="info-item">
 								<span class="info-label">Property ID:</span>
-								<span class="info-value">TCP-{String(property.id).padStart(4, '0')}</span>
+								<span class="info-value">TPC-{String(property.id).padStart(4, '0')}</span>
 							</div>
 							<div class="info-item">
 								<span class="info-label">Type:</span>

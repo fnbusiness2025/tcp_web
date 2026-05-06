@@ -43,8 +43,8 @@
 </script>
 
 <svelte:head>
-	<title>Admin Login - TCP Malawi</title>
-	<meta name="description" content="Admin login for TCP Malawi property management system" />
+	<title>Admin Login - TPC Malawi</title>
+	<meta name="description" content="Admin login for TPC Malawi property management system" />
 </svelte:head>
 
 <div class="login-container">
@@ -52,7 +52,7 @@
 		<div class="login-header">
 			<img src="/tcp.jpeg" alt="TCP Malawi" class="logo" />
 			<h1>Admin Login</h1>
-			<p>TCP Malawi Property Management System</p>
+			<p>TPC Malawi Property Management System</p>
 		</div>
 
 		<form on:submit|preventDefault={handleLogin} class="login-form">

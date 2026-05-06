@@ -1,5 +1,6 @@
 <script>
 	import Footer from '$lib/components/Footer.svelte';
+	import Chatbot from '$lib/Chatbot.svelte';
 </script>
 
 <div class="app">
@@ -7,6 +8,7 @@
 		<slot />
 	</main>
 	<Footer />
+	<Chatbot />
 </div>
 
 <style>

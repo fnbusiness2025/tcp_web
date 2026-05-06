@@ -1,0 +1,1 @@
+export { default as component } from "../../../../src/routes/services/market-research/+page.svelte";

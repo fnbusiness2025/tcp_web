@@ -167,4 +167,28 @@
 		transform: translateY(0);
 		transition-delay: 500ms;
 	}
+	
+	.scroll-animation.scroll-visible :global(.stagger-item:nth-child(7)) {
+		opacity: 1;
+		transform: translateY(0);
+		transition-delay: 600ms;
+	}
+	
+	.scroll-animation.scroll-visible :global(.stagger-item:nth-child(8)) {
+		opacity: 1;
+		transform: translateY(0);
+		transition-delay: 700ms;
+	}
+	
+	.scroll-animation.scroll-visible :global(.stagger-item:nth-child(9)) {
+		opacity: 1;
+		transform: translateY(0);
+		transition-delay: 800ms;
+	}
+	
+	.scroll-animation.scroll-visible :global(.stagger-item:nth-child(10)) {
+		opacity: 1;
+		transform: translateY(0);
+		transition-delay: 900ms;
+	}
 </style>

@@ -12,6 +12,8 @@
 	let loading = false;
 	let message = '';
 	let messageType = '';
+	let showPassword = false;
+	let showSignUpPassword = false;
 	
 	const API_BASE = 'http://localhost:3001/api/v1';
 	
@@ -45,9 +47,9 @@
 				
 				showMessage('Sign in successful! Redirecting...', 'success');
 				
-				// Redirect to home page after successful sign in
+				// Redirect to dashboard after successful sign in
 				setTimeout(() => {
-					window.location.href = '/';
+					window.location.href = '/dashboard';
 				}, 1500);
 			} else {
 				showMessage(data.message || 'Sign in failed', 'error');
@@ -93,9 +95,9 @@
 				
 				showMessage('Account created successfully! Redirecting...', 'success');
 				
-				// Redirect to home page after successful sign up
+				// Redirect to dashboard after successful sign up
 				setTimeout(() => {
-					window.location.href = '/';
+					window.location.href = '/dashboard';
 				}, 1500);
 			} else {
 				showMessage(data.message || 'Sign up failed', 'error');
@@ -120,8 +122,8 @@
 </script>
 
 <svelte:head>
-	<title>Sign In - Terrestrial Property Consulting Limited | TCP Malawi</title>
-	<meta name="description" content="Sign in or create an account to access TCP Malawi property services." />
+	<title>Sign In - Terrestrial Property Consulting Limited | TPC Malawi</title>
+	<meta name="description" content="Sign in or create an account to access TPC Malawi property services." />
 </svelte:head>
 
 <Navigation currentPage="signin" />
@@ -134,7 +136,7 @@
 		<div style="background: white; border-radius: 12px; padding: 2.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
 			<div style="text-align: center; margin-bottom: 2rem;">
 				<h1 style="color: #1a1a1a; font-size: 1.875rem; font-weight: 700; margin-bottom: 0.5rem;">Sign In</h1>
-				<p style="color: #64748b; font-size: 1rem;">Welcome back to TCP Malawi</p>
+				<p style="color: #64748b; font-size: 1rem;">Welcome back to TPC Malawi</p>
 			</div>
 			
 			{#if message}
@@ -158,14 +160,34 @@
 				
 				<div style="margin-bottom: 1.5rem;">
 					<label for="signin-password" style="display: block; color: #374151; font-weight: 500; margin-bottom: 0.5rem;">Password</label>
-					<input 
-						id="signin-password"
-						type="password" 
-						bind:value={signInPassword}
-						placeholder="Enter your password"
-						required
-						style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 1rem; outline: none; box-sizing: border-box;"
-					/>
+					<div style="position: relative;">
+						<input 
+							id="signin-password"
+							type={showPassword ? 'text' : 'password'} 
+							bind:value={signInPassword}
+							placeholder="Enter your password"
+							required
+							style="width: 100%; padding: 0.75rem; padding-right: 2.5rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 1rem; outline: none; box-sizing: border-box;"
+						/>
+						<button 
+							type="button"
+							on:click={() => showPassword = !showPassword}
+							style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #6b7280; padding: 0.25rem;"
+							title={showPassword ? 'Hide password' : 'Show password'}
+						>
+							{#if showPassword}
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+									<line x1="1" y1="1" x2="23" y2="23"></line>
+								</svg>
+							{:else}
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+									<circle cx="12" cy="12" r="3"></circle>
+								</svg>
+							{/if}
+						</button>
+					</div>
 				</div>
 				
 				<button 
@@ -192,7 +214,7 @@
 		<div style="background: white; border-radius: 12px; padding: 2.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
 			<div style="text-align: center; margin-bottom: 2rem;">
 				<h1 style="color: #1a1a1a; font-size: 1.875rem; font-weight: 700; margin-bottom: 0.5rem;">Sign Up</h1>
-				<p style="color: #64748b; font-size: 1rem;">Create your TCP Malawi account</p>
+				<p style="color: #64748b; font-size: 1rem;">Create your TPC Malawi account</p>
 			</div>
 			
 			{#if message}
@@ -254,14 +276,34 @@
 				
 				<div style="margin-bottom: 1.5rem;">
 					<label for="signup-password" style="display: block; color: #374151; font-weight: 500; margin-bottom: 0.5rem;">Password</label>
-					<input 
-						id="signup-password"
-						type="password" 
-						bind:value={signUpPassword}
-						placeholder="Create a password"
-						required
-						style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 1rem; outline: none; box-sizing: border-box;"
-					/>
+					<div style="position: relative;">
+						<input 
+							id="signup-password"
+							type={showSignUpPassword ? 'text' : 'password'} 
+							bind:value={signUpPassword}
+							placeholder="Create a password"
+							required
+							style="width: 100%; padding: 0.75rem; padding-right: 2.5rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 1rem; outline: none; box-sizing: border-box;"
+						/>
+						<button 
+							type="button"
+							on:click={() => showSignUpPassword = !showSignUpPassword}
+							style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #6b7280; padding: 0.25rem;"
+							title={showSignUpPassword ? 'Hide password' : 'Show password'}
+						>
+							{#if showSignUpPassword}
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+									<line x1="1" y1="1" x2="23" y2="23"></line>
+								</svg>
+							{:else}
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+									<circle cx="12" cy="12" r="3"></circle>
+								</svg>
+							{/if}
+						</button>
+					</div>
 				</div>
 				
 				<button 

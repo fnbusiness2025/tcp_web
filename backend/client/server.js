@@ -37,17 +37,32 @@ app.get(`${API_PREFIX}/health`, (req, res) => {
 });
 
 // Client-specific routes
-app.get(`${API_PREFIX}/properties`, (req, res) => {
-  res.json({
-    success: true,
-    message: 'Properties endpoint - Client Backend',
-    data: {
-      properties: [
+app.get(`${API_PREFIX}/properties`, async (req, res) => {
+  try {
+    let properties = [];
+    
+    if (database.usePostgreSQL) {
+      const result = await database.query('SELECT * FROM properties ORDER BY created_at DESC');
+      properties = result.rows;
+    } else {
+      properties = [
         { id: 1, title: 'Sample Property 1', price: 150000 },
         { id: 2, title: 'Sample Property 2', price: 250000 }
-      ]
+      ];
     }
-  });
+
+    res.json({
+      success: true,
+      message: database.usePostgreSQL ? 'Properties fetched from database' : 'Properties endpoint - Sample Data',
+      data: { properties }
+    });
+  } catch (error) {
+    console.error('Error fetching properties:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch properties'
+    });
+  }
 });
 
 app.get(`${API_PREFIX}/profile`, (req, res) => {
@@ -69,8 +84,8 @@ app.listen(PORT, async () => {
   console.log(`🚀 TCP Client Backend running on port ${PORT}`);
   console.log(`📡 API available at: http://localhost:${PORT}${API_PREFIX}`);
   console.log(`🔗 Health check: http://localhost:${PORT}${API_PREFIX}/health`);
-  console.log(`🌐 CORS enabled for: ${process.env.FRONTEND_URL}`);
-  
+  console.log(`🌐 CORS enabled for:\n   - ${process.env.FRONTEND_URL}\n   - ${process.env.ADMIN_FRONTEND_URL}`);
+
   // Test database connection
   const dbConnected = await database.testConnection();
   if (dbConnected) {

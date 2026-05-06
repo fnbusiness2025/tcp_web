@@ -37,8 +37,8 @@
 </script>
 
 <svelte:head>
-	<title>Admin Panel - TCP Malawi</title>
-	<meta name="description" content="Admin panel for TCP Malawi property management system" />
+	<title>Admin Panel - TPC Malawi</title>
+	<meta name="description" content="Admin panel for TPC Malawi property management system" />
 	<link rel="icon" type="image/png" href="/favicon.png" />
 </svelte:head>
 

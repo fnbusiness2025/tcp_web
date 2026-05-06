@@ -2,18 +2,23 @@
 // PostgreSQL database connection setup with in-memory fallback
 
 import pkg from 'pg';
+import dotenv from 'dotenv';
+import crypto from 'crypto';
 const { Pool } = pkg;
+
+dotenv.config();
 
 // Database connection configuration
 const pool = new Pool({
-  host: process.env.DB_HOST || 'localhost',
+  host: process.env.DB_HOST || '127.0.0.1',
   port: process.env.DB_PORT || 5432,
-  database: process.env.DB_NAME || 'tpc_db',
+  database: process.env.DB_NAME || 'tcp_db',
   user: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASSWORD || '',
   max: 20, // Maximum number of connections in the pool
   idleTimeoutMillis: 30000, // How long a client is allowed to remain idle before being closed
-  connectionTimeoutMillis: 2000, // How long to wait when connecting a new client
+  connectionTimeoutMillis: 5000, // How long to wait when connecting a new client
+  ssl: false // Disable SSL for local connections
 });
 
 class Database {
@@ -21,8 +26,7 @@ class Database {
     this.pool = pool;
     this.usePostgreSQL = false;
     this.users = [];
-    this.userIdCounter = 1;
-    this.initDatabase();
+    this.initialized = this.initDatabase();
   }
 
   // Initialize database tables
@@ -34,7 +38,7 @@ class Database {
       // Create users table if it doesn't exist
       const createUsersTable = `
         CREATE TABLE IF NOT EXISTS users (
-          id SERIAL PRIMARY KEY,
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
           first_name VARCHAR(100) NOT NULL,
           last_name VARCHAR(100) NOT NULL,
           phone VARCHAR(20) NOT NULL,
@@ -49,6 +53,7 @@ class Database {
       this.usePostgreSQL = true;
       console.log('✅ PostgreSQL database connected and tables initialized');
     } catch (error) {
+      console.error('❌ PostgreSQL connection error:', error);
       console.warn('⚠️  PostgreSQL not available, falling back to in-memory storage');
       this.usePostgreSQL = false;
       console.log('✅ In-memory storage initialized');
@@ -78,7 +83,7 @@ class Database {
     } else {
       // In-memory storage
       const user = {
-        id: this.userIdCounter++,
+        id: crypto.randomUUID(),
         first_name: firstName,
         last_name: lastName,
         phone: phone,
@@ -238,10 +243,11 @@ class Database {
 
   // Test database connection
   async testConnection() {
+    await this.initialized;
     if (this.usePostgreSQL) {
       try {
         const result = await this.pool.query('SELECT NOW()');
-        console.log('✅ PostgreSQL connected successfully:', result.rows[0]);
+        console.log('✅ PostgreSQL connected successfully');
         return true;
       } catch (error) {
         console.error('❌ PostgreSQL connection failed:', error);
@@ -250,6 +256,16 @@ class Database {
     } else {
       console.log('✅ Using in-memory storage (PostgreSQL not available)');
       return true;
+    }
+  }
+
+  // General query method
+  async query(text, params) {
+    if (this.usePostgreSQL) {
+      return this.pool.query(text, params);
+    } else {
+      console.warn('⚠️  Attempting to run SQL query on in-memory storage. Not supported for custom queries.');
+      return { rows: [] };
     }
   }
 

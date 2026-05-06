@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-	<title>Contact Us - Terrestrial Property Consulting Limited | TCP Malawi</title>
+	<title>Contact Us - Terrestrial Property Consulting Limited | TPC Malawi</title>
 	<meta name="description" content="Contact Terrestrial Property Consulting Limited in Blantyre, Malawi. Visit our office at Reunion House or call us for professional property consulting services." />
 </svelte:head>
 
@@ -29,7 +29,7 @@
 		<div class="container">
 			<div class="hero-content">
 				<div class="hero-badge">Get in Touch</div>
-				<h1>Contact TCP Malawi</h1>
+				<h1>Contact TPC Malawi</h1>
 				<p class="hero-subtitle">Connect with our expert team for professional property consulting services across Malawi</p>
 			</div>
 		</div>

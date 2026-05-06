@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-	<title>About Us - Terrestrial Property Consulting Limited | TCP Malawi</title>
+	<title>About Us - Terrestrial Property Consulting Limited | TPC Malawi</title>
 	<meta name="description" content="Learn about Terrestrial Property Consulting Limited - our vision, mission, core values, and legacy of professionalism in real estate services in Malawi." />
 </svelte:head>
 
@@ -21,7 +21,7 @@
 		</div>
 		<div class="container">
 			<div class="hero-content">
-				<div class="hero-badge">About TCP Malawi</div>
+				<div class="hero-badge">About TPC Malawi</div>
 				<h1>Terrestrial Property Consulting Limited</h1>
 				<p class="hero-subtitle">Leading the way in professional real estate services across Malawi with integrity, expertise, and excellence.</p>
 			</div>
@@ -35,7 +35,7 @@
 				<div class="overview-content">
 					<div class="overview-text">
 						<h2>Who We Are</h2>
-						<p>Terrestrial Property Consulting Limited (TCP Malawi) is a premier property consulting firm dedicated to providing exceptional real estate services throughout Malawi. With years of expertise in the local market, we combine deep industry knowledge with innovative solutions to deliver outstanding results for our clients.</p>
+						<p>Terrestrial Property Consulting Limited (TPC Malawi) is a premier property consulting firm dedicated to providing exceptional real estate services throughout Malawi. With years of expertise in the local market, we combine deep industry knowledge with innovative solutions to deliver outstanding results for our clients.</p>
 						<p>Our team of experienced professionals is committed to maintaining the highest standards of integrity, professionalism, and client service in every transaction and consultation.</p>
 					</div>
 					<div class="overview-stats">

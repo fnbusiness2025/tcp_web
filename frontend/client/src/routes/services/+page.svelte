@@ -5,8 +5,8 @@
 </script>
 
 <svelte:head>
-	<title>Services - Terrestrial Property Consulting Limited | TCP Malawi</title>
-	<meta name="description" content="Explore our comprehensive property services including valuations, plant & machinery valuations, asset tagging & tracking, and property management in Malawi." />
+	<title>Services - Terrestrial Property Consulting Limited | TPC Malawi</title>
+	<meta name="description" content="Explore our comprehensive property services including valuations, plant & machinery valuations, property management, land surveying, and asset tagging solutions in Malawi." />
 </svelte:head>
 
 <Navigation currentPage="services" />
@@ -37,45 +37,39 @@
 					<p>Expert solutions for all your property and asset management needs</p>
 				</div>
 				<div class="services-grid">
+					<!-- (a) Asset/property valuations -->
 					<a href="/services/property-valuations" class="service-card stagger-item">
 						<div class="service-image">
-							<img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=250&fit=crop&auto=format" alt="Property Valuations" />
+							<img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=250&fit=crop&auto=format" alt="Asset/Property Valuations" />
 							<div class="service-overlay">
 								<div class="service-icon">📊</div>
 							</div>
 						</div>
 						<div class="service-content">
-							<h3>Property Valuations</h3>
-							<p>Accurate, reliable, and professional valuation services for all types of properties</p>
-							<div class="service-link">Learn More →</div>
+							<div class="service-tag">Professional</div>
+							<h3>Asset/Property Valuations</h3>
+							<p>Accurate, reliable, and professional valuation services for all types of properties across Malawi.</p>
+							<div class="service-link">Learn More <span>→</span></div>
 						</div>
 					</a>
+
+					<!-- (b) plant and machinery valuation -->
 					<a href="/services/plant-machinery-valuations" class="service-card stagger-item">
 						<div class="service-image">
-							<img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&h=250&fit=crop&auto=format" alt="Plant & Machinery Valuations" />
+							<img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&h=250&fit=crop&auto=format" alt="Plant and Machinery Valuation" />
 							<div class="service-overlay">
 								<div class="service-icon">🏭</div>
 							</div>
 						</div>
 						<div class="service-content">
-							<h3>Plant & Machinery Valuations</h3>
-							<p>Specialized valuation services for industrial and commercial assets</p>
-							<div class="service-link">Learn More →</div>
+							<div class="service-tag">Industrial</div>
+							<h3>Plant and Machinery Valuation</h3>
+							<p>Specialized valuation services for industrial plants, machinery, and commercial equipment.</p>
+							<div class="service-link">Learn More <span>→</span></div>
 						</div>
 					</a>
-					<a href="/services/asset-tagging-tracking" class="service-card stagger-item">
-						<div class="service-image">
-							<img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop&auto=format" alt="Asset Tagging & Tracking" />
-							<div class="service-overlay">
-								<div class="service-icon">🏷️</div>
-							</div>
-						</div>
-						<div class="service-content">
-							<h3>Asset Tagging & Tracking</h3>
-							<p>Comprehensive asset management solutions with modern tracking technology</p>
-							<div class="service-link">Learn More →</div>
-						</div>
-					</a>
+
+					<!-- (c) property management -->
 					<a href="/services/property-management" class="service-card stagger-item">
 						<div class="service-image">
 							<img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=250&fit=crop&auto=format" alt="Property Management" />
@@ -84,9 +78,122 @@
 							</div>
 						</div>
 						<div class="service-content">
+							<div class="service-tag">Management</div>
 							<h3>Property Management</h3>
-							<p>End-to-end property management services for maximum investment returns</p>
-							<div class="service-link">Learn More →</div>
+							<p>End-to-end management solutions for residential and commercial property investments.</p>
+							<div class="service-link">Learn More <span>→</span></div>
+						</div>
+					</a>
+
+					<!-- (d) land lease consultancy -->
+					<a href="/services/land-lease-consultancy" class="service-card stagger-item">
+						<div class="service-image">
+							<img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&h=250&fit=crop&auto=format" alt="Land Lease Consultancy" />
+							<div class="service-overlay">
+								<div class="service-icon">📄</div>
+							</div>
+						</div>
+						<div class="service-content">
+							<div class="service-tag">Consultancy</div>
+							<h3>Land Lease Consultancy</h3>
+							<p>Expert advice on land leasing negotiations, agreement structuring, and lease management.</p>
+							<div class="service-link">Learn More <span>→</span></div>
+						</div>
+					</a>
+
+					<!-- (e) telecommunications site acquisition services -->
+					<a href="/services/telecommunications-site-acquisition" class="service-card stagger-item">
+						<div class="service-image">
+							<img src="https://images.unsplash.com/photo-1520333789090-1afc82db536a?w=400&h=250&fit=crop&auto=format" alt="Telecommunications Site Acquisition" />
+							<div class="service-overlay">
+								<div class="service-icon">🗼</div>
+							</div>
+						</div>
+						<div class="service-content">
+							<div class="service-tag">Telecomm</div>
+							<h3>Telecom Site Acquisition</h3>
+							<p>Specialized property solutions for identifying and securing sites for telecom infrastructure.</p>
+							<div class="service-link">Learn More <span>→</span></div>
+						</div>
+					</a>
+
+					<!-- (f) asset tagging solutions -->
+					<a href="/services/asset-tagging-tracking" class="service-card stagger-item">
+						<div class="service-image">
+							<img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop&auto=format" alt="Asset Tagging Solutions" />
+							<div class="service-overlay">
+								<div class="service-icon">🏷️</div>
+							</div>
+						</div>
+						<div class="service-content">
+							<div class="service-tag">Solutions</div>
+							<h3>Asset Tagging Solutions</h3>
+							<p>Modern asset identification and tracking systems with comprehensive reporting features.</p>
+							<div class="service-link">Learn More <span>→</span></div>
+						</div>
+					</a>
+
+					<!-- (g) land surveying -->
+					<a href="/services/land-surveying" class="service-card stagger-item">
+						<div class="service-image">
+							<img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=400&h=250&fit=crop&auto=format" alt="Land Surveying" />
+							<div class="service-overlay">
+								<div class="service-icon">📐</div>
+							</div>
+						</div>
+						<div class="service-content">
+							<div class="service-tag">Surveying</div>
+							<h3>Land Surveying</h3>
+							<p>Precise boundary identification, topographic surveys, and cadastral mapping services.</p>
+							<div class="service-link">Learn More <span>→</span></div>
+						</div>
+					</a>
+
+					<!-- (h) property sales -->
+					<a href="/services/property-sales" class="service-card stagger-item">
+						<div class="service-image">
+							<img src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?w=400&h=250&fit=crop&auto=format" alt="Property Sales" />
+							<div class="service-overlay">
+								<div class="service-icon">🏠</div>
+							</div>
+						</div>
+						<div class="service-content">
+							<div class="service-tag">Real Estate</div>
+							<h3>Property Sales</h3>
+							<p>Professional brokerage services for the sale and acquisition of real estate properties.</p>
+							<div class="service-link">Learn More <span>→</span></div>
+						</div>
+					</a>
+
+					<!-- (i) building plans and layout planning -->
+					<a href="/services/building-plans-layout-planning" class="service-card stagger-item">
+						<div class="service-image">
+							<img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=250&fit=crop&auto=format" alt="Building Plans and Layout Planning" />
+							<div class="service-overlay">
+								<div class="service-icon">🏗️</div>
+							</div>
+						</div>
+						<div class="service-content">
+							<div class="service-tag">Architecture</div>
+							<h3>Building Plans & Layout</h3>
+							<p>Comprehensive design and planning services for optimal field and building layout use.</p>
+							<div class="service-link">Learn More <span>→</span></div>
+						</div>
+					</a>
+
+					<!-- (j) market research -->
+					<a href="/services/market-research" class="service-card stagger-item">
+						<div class="service-image">
+							<img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400&h=250&fit=crop&auto=format" alt="Market Research" />
+							<div class="service-overlay">
+								<div class="service-icon">📈</div>
+							</div>
+						</div>
+						<div class="service-content">
+							<div class="service-tag">Research</div>
+							<h3>Market Research</h3>
+							<p>In-depth property market analysis and investment research for data-driven decisions.</p>
+							<div class="service-link">Learn More <span>→</span></div>
 						</div>
 					</a>
 				</div>
@@ -844,131 +951,185 @@ line-height: 1.6;
 opacity: 0.9;
 }
 
-/* Services Overview Section */
 .services-overview {
-padding: var(--spacing-20) 0;
-background: var(--background);
+	padding: var(--spacing-20) 0;
+	background: radial-gradient(circle at 10% 20%, rgba(147, 199, 80, 0.05) 0%, transparent 40%),
+				radial-gradient(circle at 90% 80%, rgba(147, 199, 80, 0.05) 0%, transparent 40%),
+				var(--background);
+	position: relative;
 }
 
 .section-header {
-text-align: center;
-margin-bottom: var(--spacing-16);
+	text-align: center;
+	margin-bottom: var(--spacing-20);
+	position: relative;
 }
 
 .section-header h2 {
-font-size: var(--text-3xl);
-font-weight: 700;
-color: var(--foreground);
-margin-bottom: var(--spacing-4);
+	font-size: var(--text-4xl);
+	font-weight: 800;
+	color: var(--foreground);
+	margin-bottom: var(--spacing-4);
+	letter-spacing: -0.02em;
 }
 
 .section-header p {
-font-size: var(--text-lg);
-color: var(--muted-foreground);
-max-width: 600px;
-margin: 0 auto;
-line-height: 1.6;
+	font-size: var(--text-lg);
+	color: var(--muted-foreground);
+	max-width: 600px;
+	margin: 0 auto;
+	line-height: 1.6;
 }
 
 .services-grid {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-gap: var(--spacing-8);
-max-width: 1200px;
-margin: 0 auto;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+	gap: var(--spacing-10);
+	max-width: 1240px;
+	margin: 0 auto;
 }
 
 .service-card {
-display: block;
-background: white;
-border-radius: var(--radius-lg);
-box-shadow: var(--shadow-md);
-text-decoration: none;
-color: inherit;
-transition: all 0.3s ease;
-border: 1px solid var(--border);
-overflow: hidden;
-position: relative;
+	display: flex;
+	flex-direction: column;
+	background: #ffffff;
+	border-radius: 24px;
+	text-decoration: none;
+	color: inherit;
+	transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	border: 1px solid rgba(226, 232, 240, 0.8);
+	overflow: hidden;
+	position: relative;
+}
+
+.service-card::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border-radius: 24px;
+	box-shadow: 0 0 40px rgba(147, 199, 80, 0);
+	transition: box-shadow 0.5s ease;
+	pointer-events: none;
+	z-index: 1;
 }
 
 .service-card:hover {
-transform: translateY(-8px);
-box-shadow: var(--shadow-xl);
-text-decoration: none;
-color: inherit;
+	transform: translateY(-12px) scale(1.02);
+	border-color: var(--tcp-primary);
+	box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+}
+
+.service-card:hover::after {
+	box-shadow: 0 0 30px rgba(147, 199, 80, 0.15);
 }
 
 .service-image {
-position: relative;
-width: 100%;
-height: 200px;
-overflow: hidden;
+	position: relative;
+	width: 100%;
+	height: 220px;
+	overflow: hidden;
 }
 
 .service-image img {
-width: 100%;
-height: 100%;
-object-fit: cover;
-transition: transform 0.3s ease;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .service-card:hover .service-image img {
-transform: scale(1.05);
+	transform: scale(1.1) rotate(1deg);
 }
 
 .service-overlay {
-position: absolute;
-top: 0;
-left: 0;
-right: 0;
-bottom: 0;
-background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(147, 199, 80, 0.3));
-display: flex;
-align-items: center;
-justify-content: center;
-opacity: 0;
-transition: opacity 0.3s ease;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: linear-gradient(to bottom, transparent 0%, rgba(15, 23, 42, 0.4) 100%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	transition: all 0.5s ease;
+	backdrop-filter: blur(0px);
 }
 
 .service-card:hover .service-overlay {
-opacity: 1;
+	opacity: 1;
+	backdrop-filter: blur(4px);
 }
 
 .service-icon {
-font-size: var(--text-3xl);
-filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+	font-size: 3.5rem;
+	transform: scale(0.8) translateY(20px);
+	transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.3));
+}
+
+.service-card:hover .service-icon {
+	transform: scale(1) translateY(0);
 }
 
 .service-content {
-padding: var(--spacing-6);
-text-align: center;
+	padding: var(--spacing-8);
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.service-tag {
+	font-size: var(--text-xs);
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	color: var(--tcp-primary);
+	margin-bottom: var(--spacing-3);
+	display: inline-block;
 }
 
 .service-card h3 {
-font-size: var(--text-xl);
-font-weight: 600;
-margin-bottom: var(--spacing-3);
-color: var(--foreground);
+	font-size: var(--text-2xl);
+	font-weight: 700;
+	margin-bottom: var(--spacing-4);
+	color: var(--foreground);
+	line-height: 1.2;
 }
 
 .service-card p {
-font-size: var(--text-base);
-line-height: 1.6;
-color: var(--muted-foreground);
-margin-bottom: var(--spacing-4);
+	font-size: var(--text-base);
+	line-height: 1.6;
+	color: var(--muted-foreground);
+	margin-bottom: var(--spacing-8);
+	flex-grow: 1;
 }
 
 .service-link {
-color: var(--tcp-primary);
-font-weight: 600;
-display: inline-flex;
-align-items: center;
-gap: var(--spacing-2);
-transition: gap 0.3s ease;
+	color: var(--tcp-primary);
+	font-weight: 700;
+	display: inline-flex;
+	align-items: center;
+	gap: var(--spacing-2);
+	font-size: var(--text-base);
+	transition: all 0.3s ease;
+}
+
+.service-link span {
+	transition: transform 0.3s ease;
 }
 
 .service-card:hover .service-link {
-gap: var(--spacing-3);
+	gap: var(--spacing-4);
+	color: var(--tcp-primary-dark);
+}
+
+.service-card:hover .service-link span {
+	transform: translateX(8px);
 }
 
 /* Responsive Design for Services Page */

@@ -59,8 +59,8 @@
 </script>
 
 <svelte:head>
-	<title>Admin Dashboard - TCP Malawi</title>
-	<meta name="description" content="Admin dashboard for TCP Malawi property management system" />
+	<title>Admin Dashboard - TPC Malawi</title>
+	<meta name="description" content="Admin dashboard for TPC Malawi property management system" />
 </svelte:head>
 
 {#if isAuthenticated}
